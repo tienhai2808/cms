@@ -1,0 +1,40 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/home.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <span class="mb-2 mt-5">Tin tức 24h</span>
+      <h2>{{ title }}</h2>
+      <hr>
+      {% for post in page_obj %}
+      <div class="post-div">
+        <div class="post-time d-flex gap-4">
+          <div class="post-dot"></div>
+          <span class="previous-time">{{ post.posted_at|custom_time_display }}</span>
+        </div>
+        <div class="post-main">
+          <div class="post-img">
+            <img src="{{post.image.url}}" alt="Ảnh bài đăng">
+          </div>
+          <div class="post-content">
+            <h5 class="post-title"><a href="/post/{{post.slug}}/">{{post.title}}</a></h5>
+            <span class="post-body">{{ post.body|safe|first_sentence|safe }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <hr>
+      {% include 'client/partials/paginator.html' %}
+    </div>
+  </div>
+</div>
+<br>
+
+{% endblock %}

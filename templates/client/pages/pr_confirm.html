@@ -1,0 +1,37 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-6">
+        <h4 style="text-align: center;">Lấy lại mật khẩu</h4>
+        {% if validlink %}
+        <form method="POST" class="form-pr">
+          {% csrf_token %}
+          <div class="input-info">
+            <input type="password" minlength="8" id="password" name="new_password1" placeholder=" ">
+            <label for="new_password1">Mật khẩu mới</label>
+          </div>
+          <div class="input-info">
+            <input type="password" minlength="8" id="password" name="new_password2" placeholder=" ">
+            <label for="new_password2">Xác nhận mật khẩu mới</label>
+          </div>
+          <br>
+          <center>
+            <button type="submit" class="btn btn-dark btn-pr">Xác nhận</button>
+          </center>
+        </form>
+        {% else %}
+        <h6 style="text-align: center;">Không có yêu cầu lấy lại mật khẩu, vui lòng chuyển hướng</h6>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

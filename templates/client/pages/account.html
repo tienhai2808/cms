@@ -1,0 +1,44 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <center>
+        <div class="user-avt">
+          <img src="{{user.profile.avt.url}}" alt="Ảnh đại diện">
+        </div>
+      </center>
+      <div class="user-info mt-3">
+        <div class="info-title">
+          <h4 style="text-align: center;"><strong>{{user.first_name}} {{user.last_name}}</strong></h4>
+        </div>
+        <div class="info-body">
+          <p style="text-align: center;">Email: <strong>{{ user.email }}</strong></p>
+          <p style="text-align: center;">Giới tính: <strong>{{ user.profile.gender }}</strong></p>
+          {% if user.profile.dob %}
+          <p style="text-align: center;">Ngày sinh: <strong>{{ user.profile.dob|date:"d/m/Y" }}</strong></p>
+          {% endif %}
+          {% if user.profile.about %}
+          <p style="text-align: center;"><strong>Giới thiệu:</strong></p>
+          <p class="info-intro" style="text-align: center;">{{ user.profile.about }}</p>
+          {% endif %}
+        </div>
+        <hr>
+        <div class="d-flex" style="justify-content: space-between;">
+          <div>
+            <a class="btn btn-dark btn-custom" href="/update-profile/">Chỉnh sửa hồ sơ</a>
+            <a class="btn btn-dark btn-custom" href="/enjoyed/">Bài viết đã lưu</a>
+          </div>
+          <a class="btn btn-dark btn-custom" href="/logout/">Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

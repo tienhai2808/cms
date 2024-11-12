@@ -1,0 +1,38 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/home.css' %}">
+{% endblock %}
+
+
+{% block main %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <span class="mb-2 mt-5">Tin tức 24h</span>
+      <h2>Bài viết đã lưu</h2>
+      <hr>
+      {% for enjoy in enjoys %}
+      <div class="post-div">
+        <div class="post-time d-flex gap-4">
+          <div class="post-dot"></div>
+          <span class="previous-time">{{ enjoy.post.posted_at|custom_time_display }}</span>
+        </div>
+        <div class="post-main">
+          <div class="post-img">
+            <img src="{{ enjoy.post.image.url}}" alt="Ảnh bài đăng">
+          </div>
+          <div class="post-content">
+            <h5 class="post-title"><a href="/post/{{enjoy.post.slug}}/">{{enjoy.post.title}}</a></h5>
+            <span class="post-body">{{ enjoy.post.body|safe|first_sentence|safe }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<br>
+{% endblock %}

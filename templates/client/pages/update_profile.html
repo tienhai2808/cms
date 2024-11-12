@@ -1,0 +1,30 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-6">
+      <h4 style="text-align: center;">Chỉnh sửa thông tin</h4>
+      <form class="form-update-profile" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form_u.as_p }}
+        {{ form_p.as_p }}
+        <p style="text-align: center;"><a href="change-password/">Thay đổi mật khẩu</a></p>
+        <center>
+          <button class="btn btn-dark btn-custom">Cập nhật</button>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/client/form_update.js' %}" defer></script>
+{% endblock %}

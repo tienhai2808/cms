@@ -1,0 +1,22 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-6">
+        <h4 style="text-align: center;">Lấy lại mật khẩu thành công</h4>
+        <br>
+        <h6 style="text-align: center;">Mật khẩu của bạn đã được lấy lại</h6>
+        <br>
+        <div style="text-align: center;"><em>Bạn có thể <a style="text-decoration: none;" href="/login/">đăng nhập</a></em> để sử dụng dịch vụ</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

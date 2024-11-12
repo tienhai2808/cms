@@ -1,0 +1,146 @@
+{% load static %}
+
+<div class="header">
+  <!-- Top Header -->
+  <div class="top-header">
+    <div class="container d-flex" style="justify-content:space-between; align-items: center;">
+      <ul class="left" style="margin: 0 !important;">
+        <li class="line-space" style="margin: 0">
+          <a href="/">
+            <img
+              src="https://s1.vnecdn.net/vnexpress/restruct/i/v942/v2_2019/pc/graphics/logo.svg"
+              alt="Báo VnExpress - Báo tiếng Việt nhiều người xem nhất"
+            />
+          </a>
+        </li>
+        <li class="line-space time"></li>
+      </ul>
+      <ul class="right" style="margin: 0 !important;">
+        <li class="line-space" ><a href="#" class="news">Mới nhất</a></li>
+        <li class="line-space news-area">
+          <a href="#" class="area">Tin theo khu vực</a>
+          <ul class="sub-area">
+            <li><a href="#">Hà Nội</a></li>
+            <li><a href="#">TP Hồ Chí Minh</a></li>
+          </ul>
+        </li>
+        <li class="line-space">
+          <a href="#" class="news-inter">
+            <img
+              src="https://play-lh.googleusercontent.com/XEReFv_aetLFZq2VCYEUF6cMeHLwJ3eM_WMcjucGKwdKPm8ob1_ghAdltlMwnHMEsQk"
+              alt=""
+              style="height: 16px; width: 16px"
+            />
+            International
+          </a>
+        </li>
+        <li class="line-space input-search">
+          <form form-search action="/search/" submitted="false" class="search" target="_blank">
+            <input name="q" required class="ip-search" type="text" placeholder="Tìm kiếm" />
+            <button class="btn-search" type="button" style="cursor: pointer;">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        </li>
+        <li class="user-noti">
+          {% if request.user.is_authenticated %}
+          <a href="/account/">
+            <i class="fa-regular fa-user me-2"></i>Tài khoản
+          </a>
+          {% else %}
+          <a href="/login/">
+            <i class="fa-regular fa-user me-2"></i>Đăng nhập
+          </a>
+          {% endif %}
+          <a href="#"><i class="far fa-bell icon-noti"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Top Header -->
+  <!-- Bot Header -->
+  <div class="bot-header">
+    <div class="container" style="max-width: 1440px">
+      <ul class="nav">
+        <li class="home">
+          <a href="/"><i class="fa fa-home"></i></a>
+        </li>
+        {% for topic in topics  %}
+        <li>
+          <a href="/{{ topic.slug }}/">{{ topic.title }}</a>
+          <ul class="sub-nav">
+            {% for section in topic.sections.all %}
+            <li><a href="/{{ topic.slug }}/{{ section.slug }}/">{{ section.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+        <li class="bar" style="display: flex; align-items: center;">
+          <div style="cursor: pointer;"><i class="fas fa-bars"></i></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Bot Header -->
+  <!-- Mega Menu -->
+  <div class="mega-menu container">
+    <div class="header-megamenu">
+      <p>Tất cả chuyên mục</p>
+      <a class="close-btn" style="cursor: pointer">
+        <span>Đóng</span>
+        <i class="fas fa-times" style="font-size: 24px"></i>
+      </a>
+    </div>
+    <div class="menu-left left" style="height: 599.6px">
+      {% for topic in topics %}
+      <div class="menu-column">
+        <h3><a style="text-decoration: none; color: #9f224e; font-weight: 700;" href="/{{ topic.slug }}/">{{ topic.title }}</a></h3>
+        <ul>
+          {% for section in topic.sections.all %}
+          <li {% if forloop.counter > 4 %}class="line-hide hide"{% endif %}>
+            <a href="/{{ topic.slug }}/{{ section.slug }}/">{{ section.title }}</a>
+          </li>
+          {% endfor %}
+          {% if topic.sections.count > 4 %}
+          <li class="line-more">
+            <span class="more" onclick="showMore(this)" style="cursor: pointer;">Xem thêm</span>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="menu-right">
+      <ul class="list-menu">
+        <li>Spotlight</li>
+        <li>Ảnh</li>
+        <li>Infographics</li>
+      </ul>
+      <ul class="list-menu">
+        <li>Mới nhất</li>
+        <li>Xem nhiều</li>
+        <li>Tin nóng</li>
+      </ul>
+      <ul class="list-item">
+        <li>Rao vặt</li>
+        <li>Startup</li>
+      </ul>
+      <div class="contact-inf">
+        <p>Liên hệ</p>
+        <a href="#" title="Liên hệ tòa soạn">
+          <i class="fas fa-envelope" style="color: #bdbdbd"></i>
+          Tòa soạn
+        </a>
+        <a href="#" title="Liên hệ quảng cáo">
+          <img
+            src="{% static 'imgs/ads.png' %}"
+            alt=""
+            style="width: 13px; height: 14px"
+          />
+          Quảng cáo
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- End Mega Menu -->
+</div>

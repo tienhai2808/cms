@@ -1,0 +1,27 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <center>
+      <div class="col-6">
+        <h4>Đăng Ký</h4>
+        <form action="/register/" class="form-register" method="POST">
+          {% csrf_token %}
+          {{ form_signup.as_p }}
+          <button class="btn btn-dark btn-register">Đăng Ký</button>
+        </form>
+      </div>
+    </center>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/client/register.js' %}" defer></script>
+{% endblock %}

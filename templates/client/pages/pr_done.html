@@ -1,0 +1,22 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-6">
+        <h4 style="text-align: center;">Gửi Email thành công</h4>
+        <br>
+        <h6 style="text-align: center;">Vui lòng kiểm tra hộp thư của bạn để lấy lại mật khẩu</h6>
+        <br>
+        <div style="text-align: center;"><em>Cảm ơn đã sử dụng dịch vụ của chúng tôi</em></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

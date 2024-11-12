@@ -1,0 +1,29 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-6">
+        <h4 style="text-align: center;">Gửi Email</h4>
+        <form method="POST" class="form-pr">
+          {% csrf_token %}
+          <div class="input-info">
+            <input id="email" name="email" type="email" minlength="12" placeholder=" ">
+            <label for="email">Địa chỉ Email</label>
+          </div>
+          <br>
+          <center>
+            <button type="submit" class="btn btn-dark btn-pr">Xác nhận</button>
+          </center>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

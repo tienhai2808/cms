@@ -1,0 +1,35 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/account.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-6">
+        <h4 style="text-align: center;">Đăng Nhập</h4>
+        <form action="/login/" method="POST" class="form-login">
+          {% csrf_token %}
+          <div class="input-info">
+            <input id="username" name="username" type="text" placeholder=" ">
+            <label for="username">Tên đăng nhập</label>
+          </div>
+          <div class="input-info">
+            <input type="password" id="password" name="password" placeholder=" ">
+            <label for="password">Mật khẩu</label>
+          </div>
+          <br>
+          <center>
+            <div class="mb-2"><a href="/password-reset/" style="text-decoration: none;">Quên mật khẩu</a></div>
+            <p>Bạn chưa có tài khoản? <a href="/register/" style="text-decoration: none;">Đăng Ký</a></p>
+            <button type="submit" class="btn btn-dark btn-login">Đăng Nhập</button>
+          </center>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

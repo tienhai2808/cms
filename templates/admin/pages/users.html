@@ -1,0 +1,68 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+
+{% block main %}
+<div class="container">
+  <h1>Tất cả người dùng</h1>
+  <div class="d-flex" style="justify-content: space-between;">
+    <form form-action-multi method="POST" class="d-flex gap-5" style="align-items: center;">
+      {% csrf_token %}
+      <input type="text" hidden ids name="post-ids">
+      <div>
+        <label for="">Tất cả</label> <br>
+        <input checkbox-all type="checkbox">
+      </div>
+      <div class="d-flex d-none" select-role>
+        <select id="select-role" name="role" class="form-select" style="cursor: pointer">
+          <option selected value="">Chọn vai trò</option>
+          <option value="Client">Client</option>
+          <option value="Contributor">Contributor</option>
+          <option value="Editor">Editor</option>
+          <option value="Approver">Approver</option>
+        </select>
+      </div>
+      <div class="d-flex gap-2">
+        <select select-action class="form-select" name="action" style="height: 37.6px;">
+          <option selected value="">Chọn hành động</option>
+          <option value="role">Sửa vai trò</option>
+          <option value="delete">Xóa người dùng</option>
+        </select>
+        <button btn-confirm type="button" style="width: 135px; height: 37.6px;" class="btn btn-dark" >Xác nhận</button>
+      </div>
+    </form>
+    {% include '../partials/filter_user.html' %}
+  </div>
+
+  <br>
+  <table class="table table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Checkbox</th>
+        <th scope="col">Người dùng</th>
+        <th scope="col">Họ Tên</th>
+        <th scope="col">Vai trò</th>
+        <th scope="col">Đã lưu</th>
+        <th scope="col">Ý kiến</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in page_obj %}
+      <tr>
+        <td><input checkbox value="{{user.id}}" type="checkbox"></td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.groups.first.name }}</td>
+        <td>{{ user.enjoys.all.count }}</td>
+        <td>{{ user.comment_by.all.count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include '../partials/paginator.html' %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/admin/users.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/post_detail.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <div class="d-flex col-10 mb-4" style="justify-content: space-between; width: 100%;">
+        <span style="text-decoration: none;">
+          <a href="/">Tin tức</a> <i class="fa-solid fa-angle-right"></i> <a href="/{{ post.section.topic.slug }}/">{{post.section.topic.title}}</a> <i class="fa-solid fa-angle-right"></i> <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/">{{ post.section.title }}</a>
+        </span>
+        <span>{{ post.posted_at|date:"l, d/m/Y, H:i" }}</span>
+      </div>
+      <h2 style="text-align: center;">{{ post.title }}</h2>
+      <hr>
+      <div class="d-flex justify-content-center mb-4">
+        <img class="post-img" src="{{post.image.url}}" alt="Ảnh bài viết">
+      </div>
+      <div class="mb-3" style="font-size: 20px;">{{post.body|safe}}</div>
+      <br>
+      <div class="d-flex" style="justify-content: space-between; width: 100%;">
+        <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-left me-2"></i>{{ post.section.title }}</a>
+        <form action="" form-comment user="{{ request.user.username }}" class="d-flex gap-2 justify-content-center" style="width: 60%;" method="POST">
+          {% csrf_token %}
+          <input type="text" name="comment" required class="form-control" placeholder="Chia sẻ ý kiến của bạn">
+          <button class="btn btn-outline-dark"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+        <button class="btn btn-outline-dark" data-post-id="{{ post.id }}" data-post-slug="{{ post.slug }}">
+          {% if post.is_enjoyed %}
+          <i class="fa-solid fa-bookmark"></i> Đã lưu
+          {% else %}
+          <i class="fa-regular fa-bookmark"></i> Lưu
+          {% endif %}
+        </button>
+      </div>
+      <br>
+      <hr>
+      <div>
+        <h3 style="text-align: center;">Ý kiến ({{ post.post_comment.all.count }})</h3>
+        {% for cmt in post.post_comment.all %}
+        <div style="width: 100%;" class="pe-4 ps-4 gap-3 d-flex">
+          <img class="user-img" src="{{ cmt.user.profile.avt.url }}" alt="Ảnh người dùng">
+          <div>
+            <span style="font-size: 17px;"><strong>{{ cmt.user.username }}  </strong>  {{ cmt.content }}</span>
+          </div>
+        </div>
+        <center><hr width="60%"></center>
+        {% endfor %}
+      </div>
+      <hr>
+      <h3 style="text-align: center;">Dành cho bạn</h3>
+      {% for post in co_topic %}
+      <div class="co-div">
+        <div class="co-img">
+          <img src="{{post.image.url}}" alt="Ảnh bài đăng">
+        </div>
+        <div class="co-content">
+          <h5 class="co-title"><a href="/post/{{post.slug}}/">{{post.title}}</a></h5>
+          <span class="co-body">{{ post.body|safe|first_sentence|safe }}</span><br>
+          <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="co-section">{{ post.section.title }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<br><br>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/client/post_detail.js' %}" defer></script>
+{% endblock %}

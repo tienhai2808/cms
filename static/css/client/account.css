@@ -1,0 +1,70 @@
+.user-avt {
+  width: 20%;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  border-radius: 1000px;
+  border: 2px solid #8B1E44;
+}
+
+.user-avt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-body p {
+  font-size: 18px;
+}
+
+.btn-custom {
+  background-color: #8B1E44 !important;
+  border: none !important;
+}
+
+.btn-login, .btn-register, .btn-pr, .btn-cp {
+  background-color: #8B1E44 !important;
+  border: none !important;
+}
+
+.form-login .input-info, .form-register .input-info, .form-pr .input-info, .form-cp .input-info {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 25px;
+}
+
+.input-info input {
+  width: 100%;
+  height: 35px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: black;
+  border-bottom: 2px solid #8B1E44;
+}
+
+.input-info label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: .4s;
+  color: #757575;
+}
+
+.input-info input:focus ~ label {
+  top: -8px;
+  color: #8B1E44;
+  font-size: 14px;
+}
+
+.input-info input:not(:placeholder-shown) ~ label {
+  top: -8px;
+  color: #8B1E44;
+  font-size: 14px;
+}
+
+.form-update-profile label {
+  color: #8B1E44 !important;
+}

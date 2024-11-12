@@ -1,0 +1,664 @@
+/* Show alert  */
+[show-alert] {
+  position: fixed;
+  top: 120px;
+  right: 15px;
+  z-index: 9999;
+}
+[show-alert].alert-hidden {
+  animation-name: alert-hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+@keyframes alert-hidden {
+  from {
+    right: 15px;
+  } to {
+    right: -100%;
+    display: none;
+  }
+}
+.close-alert {
+  font-size: 18px;
+  color: red;
+  cursor: pointer;
+}
+/* End show alert  */
+
+
+
+
+
+/* CSS dùng chung */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #222;
+  font: 400 15px arial;
+}
+
+img {
+  vertical-align: middle;
+}
+
+ul li {
+  list-style: none;
+}
+
+/* ul {
+  padding-left: 0 !important;
+} */
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.pb-8 {
+  padding-bottom: 8px;
+}
+
+.mb-8 {
+  margin-bottom: 8px;
+}
+
+.border-bot {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.border-right {
+  border-right: 1px solid #e5e5e5;
+}
+
+.grey {
+  color: #bdbdbd;
+}
+
+
+/* CSS cho Header (Top & Bot) */
+.header {
+  position: relative;
+}
+
+.header li {
+  font-size: 14px;
+  line-height: 30px;
+  display: inline-block;
+}
+
+.header a {
+  display: inline-block;
+}
+
+.top-header {
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #E5E5E5;
+  padding: 8.5px 0;
+}
+
+.top-header * {
+  color: #757575;
+}
+
+.top-header li {
+  margin-left: 20px;
+  position: relative;
+}
+
+.right .line-space:hover a {
+  color: #4f4f4f;
+}
+
+.right .user-noti:hover a {
+  color: #087cce;
+}
+
+.top-header .line-space::after {
+  width: 1px;
+  height: 20px;
+  background: #efefef;
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: -11px;
+}
+
+.news-area {
+  padding-bottom: 4px;
+}
+
+.area {
+  position: relative;
+}
+
+.sub-area {
+  position: absolute;
+  top: 34px;
+  width: 360px;
+  padding: 20px 15px;
+  line-height: 1.2;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: #fff;
+  display: none;
+  z-index: 9999;
+}
+
+.sub-area li {
+  display: block;
+  padding: 12px 15px;
+  color: #4F4F4F;
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 700;
+  margin: 0;
+}
+
+.news-area:hover .sub-area {
+  display: block;
+}
+
+.sub-area li:hover a {
+  color: #B42652;
+}
+
+.inp-search {
+  margin-left: 10px !important;
+}
+
+.search {
+  position: relative;
+}
+
+.ip-search {
+  width: 0 ;
+  padding: 0 ;
+  height: 32px;
+  transition-duration: 200ms;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1) ;
+  visibility: hidden;
+  background-color: white;
+}
+
+.ip-search.open {
+  padding: 0 10px ;
+  width: 180px ;
+  border-radius: 16px;
+  border: 1px solid #E5E5E5;
+  visibility: visible;
+  z-index: 99;
+}
+
+.btn-search {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+
+.btn-search i {
+  color: #bdbdbd;
+}
+
+.icon-noti {
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+}
+
+.bot-header {
+  position: relative;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav a {
+  color: #222;
+}
+
+.nav li {
+  margin-right: 12px;
+  position: relative;
+  line-height: normal;
+}
+
+.nav li a {
+  padding: 16.5px 0;
+}
+
+.nav .home {
+  padding: 12px 0;
+}
+
+.nav .home a {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  position: relative;
+  padding: 0;
+}
+
+.nav .home a i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #757575;
+}
+
+.nav .home:hover a {
+  background-color: #B52759;
+}
+
+.nav .home:hover i {
+  color: #fff;
+}
+
+.nav .sub-nav {
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 0;
+  z-index: 99;
+  width: 160px;
+  background: #fff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #9f224e;
+  padding-left: 10px !important;
+}
+
+.nav .sub-nav li {
+  display: block;
+  padding: 0;
+  line-height: normal;
+}
+
+.nav .sub-nav a {
+  padding: 10px 0;
+  display: block;
+  color: #333 !important; 
+}
+
+.nav li:hover .sub-nav {
+  display: block;
+}
+
+.nav li:hover a {
+  color: #B52759;
+}
+
+.nav .sub-nav li:hover a {
+  text-decoration: underline;
+}
+
+/* CSS cho Mega Menu */
+.mega-menu {
+  position: absolute;
+  z-index: 99 !important;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  visibility: hidden;
+  top: calc(107px + 10px);
+  opacity: 0;
+  transition-duration: 200ms;
+  transition-property: opacity, top, visible;
+  transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1);
+}
+
+.mega-menu.open {
+  top: 107px;
+  visibility: visible;
+  opacity: 1;
+}
+
+hr {
+  z-index: 1 !important;
+}
+
+.mega-menu .header-megamenu {
+  width: 100%;
+  border-bottom: 1px solid #bdbdbd;
+  padding: 13px 0;
+  font-size: 18px;
+}
+
+.header-megamenu p {
+  font-size: 18px;
+  line-height: 23px;
+  color: #4f4f4f;
+  display: inline-block;
+  font-family: "Merriweather", serif;
+  font-weight: 1000;
+}
+
+.close-btn {
+  float: right;
+  color: #076db6;
+  font-size: 15px;
+}
+
+.close-btn i {
+  position: relative;
+  float: right;
+  margin-left: 10px;
+  top: -3px;
+}
+
+.mega-menu .menu-left {
+  padding: 15px 0;
+  width: calc(100% - 160px);
+  overflow-y: scroll;
+}
+
+.mega-menu .menu-column {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 14px;
+  width: 150px;
+  margin-bottom: 30px;
+  margin-left: 25px;
+}
+
+.mega-menu .menu-column h3 {
+  color: #9f224e;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.mega-menu .menu-column ul {
+  list-style: none;
+  margin-bottom: 30px;
+  padding-left: 0 !important;
+}
+
+.mega-menu .menu-column ul li {
+  font-size: 14px;
+  display: block;
+}
+
+.mega-menu .menu-column ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.mega-menu .menu-column .line-hide.hide {
+  display: none;
+}
+
+.menu-column .line-hide {
+  display: block;
+}
+
+.menu-column .more {
+  padding-top: 3px;
+  border-top: 1px solid #bdbdbd;
+  font-size: 12px;
+  line-height: normal;
+}
+
+.mega-menu .menu-column a:hover,
+.mega-menu .menu-column h3:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mega-menu .menu-right {
+  width: 160px;
+  padding-left: 12px;
+  float: right;
+  padding-top: 15px;
+  border-left: 1px solid #bdbdbd;
+}
+
+.mega-menu .menu-right ul {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #bdbdbd;
+  margin-bottom: 20px;
+}
+
+.mega-menu .menu-right ul li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mega-menu .menu-right .list-menu li {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 17px;
+  display: block;
+}
+
+.mega-menu .menu-right .list-item li {
+  font-size: 14px;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.mega-menu .menu-right .contact-inf p {
+  margin-bottom: 10px;
+}
+
+.mega-menu .menu-right .contact-inf a {
+  margin-bottom: 10px;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  padding-left: 0;
+  display: block;
+  text-align: left;
+  border: none;
+  color: #222;
+}
+
+.mega-menu .menu-right .contact-inf a:hover {
+  color: #087cce;
+}
+
+
+
+/* CSS cho Footer */
+.footer {
+  margin-top: 35px;
+}
+
+.footer * {
+  color: #222;
+}
+
+.footer-menu {
+  display: flex;
+  padding: 20px 0;
+  border-top: 5px solid #e5e5e5;
+}
+
+.footer-menu .list-menu:first-child {
+  font-weight: bold;
+}
+
+.footer-menu .list-menu {
+  width: 170px;
+  padding: 0 15px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.footer-menu .list-menu:first-child {
+  width: 155px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+
+.footer-menu .contact {
+  width: 265px;
+  line-height: 120%;
+  display: inline-block;
+  padding-left: 15px;
+}
+
+.footer-menu .list-menu li {
+  margin-bottom: 15px;
+}
+
+.footer-menu .list-menu li:hover a {
+  text-decoration: underline;
+}
+
+.footer-menu .contact a {
+  font-size: 14px;
+}
+
+.footer-menu .contact .head-contact {
+  font-size: 14px;
+  color: #757575;
+}
+
+.contact-inf .head-contact {
+  margin-bottom: 6px;
+}
+
+.contact .contact-inf a {
+  width: 120px;
+  display: inline-block;
+}
+
+.contact-inf a:hover {
+  color: #087cce;
+}
+
+.hotline .head-contact {
+  margin-bottom: 10px;
+}
+
+.contact .hotnews h2 {
+  font: 700 13px / 1.5 Arial;
+  margin-bottom: 4px;
+}
+
+.hotnews img {
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+}
+
+.hotnews p {
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  font-family: Arial;
+  color: #4F4F4F;
+  font-size: 14px;
+  width: 161px;
+  display: inline-block;
+}
+
+.hotnews button {
+  border-radius: 4px;
+  background-color: #8B1E44;
+  width: 83px;
+  height: 32px;
+  float: right;
+}
+
+.hotnews button a {
+  color: #fff;
+  font-size: 12px !important;
+}
+
+.cpr {
+  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #bdbdbd;
+  padding: 10px 0;
+}
+
+.cpr .logo-tx span {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-right: 8px;
+}
+
+.cpr .right {
+  margin-top: 5px;
+}
+
+.cpr .right span,
+.cpr .right .text { 
+  padding: 0 10px;
+  border-right: 1px solid #E5E5E5;
+  font-size: 14px;
+  color: #757575;
+}
+
+.cpr .right .icon:first-child {
+  margin: 0;
+  text-align: center;
+}
+
+.cpr .right .icon {
+  margin-left: 5px;
+  width: 14px;
+}
+
+.cpr .right .icon i {
+  color: #9f9f9f;
+}
+
+.cpr .right a:hover {
+  text-decoration: underline;
+}
+
+.cpr .right .icon:hover .fb {
+  color: #3b5999
+}
+
+.cpr .right .icon:hover .tw {
+  color: #55acee
+}
+
+.cpr .right .icon:hover .ytb {
+  color: #c00
+}
+
+.ucpr {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.ucpr p {
+  display: inline-block;
+  width: 30%;
+  top: 0;
+  padding-right: 30px;
+}
+
+.mgl20 {
+  margin-left: 20px !important;
+}

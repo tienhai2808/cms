@@ -1,0 +1,44 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Danh sách chờ chỉnh sửa</h1>
+<div class="d-flex" style="justify-content: space-between;">
+  <form form-action-multi method="POST" class="d-flex gap-5" style="align-items: center;">
+    {% csrf_token %}
+    <input type="text" hidden ids name="post-ids">
+    <div>
+      <label for="">Tất cả</label> <br>
+      <input checkbox-all type="checkbox">
+    </div>
+    <div class="d-flex gap-2">
+      <select class="form-select" name="action">
+        <option selected value="">Chọn hành động</option>
+        <option value="send">Gửi bài viết</option>
+      </select>
+      <button btn-confirm type="button" style="width: 135px;" class="btn btn-dark">Xác nhận</button>
+    </div>
+  </form>
+  <form action="" class="d-flex gap-2" style="align-items: center;">
+    <select class="form-select" name="status" style="height: 37.6px;">
+      <option {% if not status %} selected {% endif %} value="">Tất cả</option>
+      <option {% if status == 'Chỉnh sửa' %} selected {% endif %}>Chỉnh sửa</option>
+      <option {% if status == 'Sửa lại' %} selected {% endif %}>Sửa lại</option>
+    </select>
+    <button type="submit" class="btn btn-dark" style="height: 37.6px;">Lọc</button>
+  </form>
+</div>
+
+
+{% for post in posts %}
+<input checkbox value="{{post.id}}" type="checkbox">
+<a href="/processing/post/{{post.id}}/">{{ post.title }}</a><br>
+{{ post.section }} - {{ post.post_request.last.status }}
+{{ post.body|safe }}
+<br>
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/list_edit.js' %}" defer></script>
+{% endblock %}

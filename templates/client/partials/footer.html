@@ -1,0 +1,117 @@
+{% load static %}
+
+<div class="footer container">
+  <div class="footer-menu">
+    <ul class="list-menu">
+      <li><a href="#" title="Trang chủ">Trang chủ</a></li>
+      <li><a href="#" title="Ảnh">Ảnh</a></li>
+      <li class="border-bot" style="padding-bottom: 15px">
+        <a href="#" title="Infographics">Infographics</a>
+      </li>
+      <li><a href="#" title="Mới nhất">Mới nhất</a></li>
+      <li><a href="#" title="Xem nhiều">Xem nhiều</a></li>
+      <li><a href="#" title="Tin nóng">Tin nóng</a></li>
+    </ul>
+    <ul class="list-menu">
+    {% for topic in topics|slice:":6" %}
+      <li><a href="/{{ topic.slug }}/" title="{{ topic.title }}">{{ topic.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <ul class="list-menu">
+    {% for topic in topics|slice:"6:12" %}
+      <li><a href="/{{ topic.slug }}/" title="{{ topic.title }}">{{ topic.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <ul class="list-menu border-right">
+    {% for topic in topics|slice:"12:" %}
+      <li><a href="/{{ topic.slug }}/" title="{{ topic.title }}">{{ topic.title }}</a></li>
+    {% endfor %}
+    </ul>
+    <ul class="list-menu border-right">
+      <li><a href="#" title="Rao vặt">Rao vặt</a></li>
+      <li><a href="#" title="Startup">Startup</a></li>
+    </ul>
+    <div class="contact">
+      <div class="contact-inf pb-8 mb-8">
+        <p class="head-contact">Liên hệ</p>
+        <a href="#" title="Liên hệ tòa soạn">
+          <i class="fas fa-envelope" style="color: #bdbdbd"></i>
+          Tòa soạn
+        </a>
+        <a href="#" title="Liên hệ quảng cáo">
+          <img
+            src="{% static 'imgs/ads.png' %}"
+            alt=""
+            style="width: 13px; height: 14px"
+          />
+          Quảng cáo
+        </a>
+      </div>
+      <div class="hotline pb-8 mb-8">
+        <p class="head-contact">Đường dây nóng</p>
+        <div class="left">
+          <strong style="font-size: 16px">083.888.0123</strong>
+          <p style="font-size: 12px">(Hà Nội)</p>
+        </div>
+        <div class="right">
+          <strong style="font-size: 16px">082.233.3555</strong>
+          <p style="font-size: 12px">(TP. Hồ Chí Minh)</p>
+        </div>
+      </div>
+      <div class="hotnews pb-8 mb-8">
+        <h2>
+          <img src="{% static 'svg/download.svg'%}" alt="" />
+          Đừng bỏ lỡ tin tức quan trọng!
+        </h2>
+        <p>
+          Nhận tóm tắt tin tức nổi bật, hấp dẫn nhất 24 giờ qua trên VnExpress.
+        </p>
+        <button><a href="#">Nhận bản tin</a></button>
+      </div>
+    </div>
+  </div>
+  <div class="cpr">
+    <p style="display: inline-block">
+      <a href="#" class="logo-tx">
+        <span>Báo điện tử</span>
+        <img
+          style="width: 140px"
+          src="https://s1.vnecdn.net/vnexpress/restruct/i/v942/v2_2019/pc/graphics/logo.svg"
+          alt="Báo VnExpress - Báo tiếng Việt nhiều người xem nhất"
+        />
+      </a>
+    </p>
+    <div class="right flex">
+      <a class="text" href="">Điều khoản sử dụng</a>
+      <a class="text" href="">Chính sách bảo mật</a>
+      <a class="text" href="">Cookies</a>
+      <a class="text" href="">RSS</a>
+      <span style="border: none">Theo dõi VnExpress trên</span>
+      <a class="icon" href=""><i class="fab fa-facebook-f fb"></i></a>
+      <a class="icon" href=""><i class="fab fa-twitter tw"></i></a>
+      <a class="icon" href=""><i class="fab fa-youtube ytb"></i></a>
+    </div>
+  </div>
+  <div class="ucpr flex">
+    <p>
+      <strong>Báo tiếng Việt nhiều người xem nhất</strong>
+      <br />
+      Thuộc Bộ Khoa học và Công nghệ
+      <br />
+      Số giấy phép: 548/GP-BTTTT ngày 24/08/2021
+    </p>
+    <p style="width: 40%">
+      Tổng biên tập: Phạm Văn Hiếu
+      <br />
+      Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu
+      Giấy, Hà Nội
+      <br />
+      Điện thoại: 024 7300 8899 - máy lẻ 4500
+    </p>
+    <p style="text-align: right; padding: 0">
+      © 1997-2024. Toàn bộ bản quyền thuộc VnExpress
+    </p>
+  </div>
+</div>
