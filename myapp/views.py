@@ -11,7 +11,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import PasswordChangeForm
 time_now = datetime.now().time()
 
-
 # Create your views here.
 def register(request):
   # Nếu người dùng đã được đăng ký 
@@ -77,8 +76,8 @@ def account(request):
 
 def index(request):
   title = 'Báo VnExpress - Báo tiếng Việt nhiều người xem nhất'
-  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng').order_by('-created_at')
-  paginator = Paginator(posts, 2)
+  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng').order_by('-posted_at')
+  paginator = Paginator(posts, 8)
   page_number = request.GET.get('page', '')
   try:
     page_obj = paginator.get_page(page_number)
@@ -86,14 +85,15 @@ def index(request):
     page_obj = paginator.page(1)
   except EmptyPage:
     page_obj = paginator.page(paginator.num_pages)
-  return render(request, 'client/pages/home.html', {'title': title, 'page_obj': page_obj})
+  context = {'title': title, 'page_obj': page_obj}
+  return render(request, 'client/pages/home.html', context)
 
 def topic(request, slug_topic):
   try:
     topic = Topic.objects.get(slug=slug_topic)
     posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', section__topic=topic).order_by('-posted_at')
     title = topic.title
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
     try:
       page_obj = paginator.get_page(page_number)
@@ -112,7 +112,7 @@ def section(request, slug_topic, slug_section):
     section = Section.objects.get(slug=slug_section, topic__slug=slug_topic)
     posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', section=section).order_by('-posted_at')
     title = section.title
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
     try:
       page_obj = paginator.get_page(page_number)
@@ -148,7 +148,8 @@ def post_detail(request, slug):
             return JsonResponse({'status': 'removed'})
           else:
             return JsonResponse({'status': 'added'}) 
-    return render(request, 'client/pages/post_detail.html', {'title': title, 'post':post, 'co_topic': co_topic})
+    context = {'title': title, 'post':post, 'co_topic': co_topic}
+    return render(request, 'client/pages/post_detail.html', context)
   except Post.DoesNotExist:
     return redirect('/')
     
@@ -186,7 +187,8 @@ def change_password(request):
         messages.error(request, 'Vui lòng nhập đúng mật khẩu hiện tại')
       elif 'new_password1' in form_errors or 'new_password2' in form_errors:
         messages.error(request, 'Mật khẩu mới không khớp hoặc không hợp lệ')
-  return render(request, 'client/pages/cp.html', {'title': title})
+  context = {'title': title}
+  return render(request, 'client/pages/cp.html', context)
   
 def enjoy_posts(request):
   if request.user.is_authenticated:
@@ -200,7 +202,12 @@ def enjoy_posts(request):
   
 def search(request):
   keyword = request.GET.get('q', '')
-  title = f"Tìm kiếm '{keyword}'"
-  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), Q(slug__icontains = slugify(keyword))|Q(body__icontains = keyword), status='Đã đăng').order_by('-posted_at')
-  return render(request, 'client/pages/search.html', {'title': title, 'keyword': keyword, 'posts': posts})
+  if keyword:
+    title = f"Kết quả tìm kiếm từ khóa '{keyword}'"
+    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), Q(slug__icontains = slugify(keyword))|Q(body__icontains = keyword), status='Đã đăng').order_by('-posted_at')
+  else:
+    title = 'Tìm kiếm bài viết'
+    posts = None
+  context = {'title': title, 'keyword': keyword, 'posts': posts}
+  return render(request, 'client/pages/search.html', context)
   

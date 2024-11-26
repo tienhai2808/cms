@@ -43,3 +43,20 @@ btnEnjoy.addEventListener("click", (e) => {
     });
   }
 });
+
+const btnShare = document.querySelector('.btn-share')
+btnShare.addEventListener('click', async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: document.title,
+        text: 'Xem bài viết này',
+        url: window.location.href
+      }) 
+    } catch (error) {
+      console.log(error)
+    }
+  } else {
+    alert('Trình duyệt không hỗ trợ chia sẻ')
+  }
+})

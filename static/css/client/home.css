@@ -63,3 +63,24 @@
   color: white;
   border: none;
 }
+
+.form-search input {
+  height: 40px;
+  padding: 0 40px 0 10px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: .8px solid rgb(165, 165, 165);
+}
+
+.form-search {
+  position: relative;
+  width: 50%;
+}
+
+.form-search button {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  color: rgb(165, 165, 165);
+}

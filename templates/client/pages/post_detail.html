@@ -19,9 +19,9 @@
       <h2 style="text-align: center;">{{ post.title }}</h2>
       <hr>
       <div class="d-flex justify-content-center mb-4">
-        <img class="post-img" src="{{post.image.url}}" alt="Ảnh bài viết">
+        <img class="post-img" src="{{ post.image.url }}" alt="Ảnh bài viết">
       </div>
-      <div class="mb-3" style="font-size: 20px;">{{post.body|safe}}</div>
+      <div class="mb-3" style="font-size: 20px;">{{ post.body|safe }}</div>
       <br>
       <div class="d-flex" style="justify-content: space-between; width: 100%;">
         <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-left me-2"></i>{{ post.section.title }}</a>
@@ -30,13 +30,18 @@
           <input type="text" name="comment" required class="form-control" placeholder="Chia sẻ ý kiến của bạn">
           <button class="btn btn-outline-dark"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
-        <button class="btn btn-outline-dark" data-post-id="{{ post.id }}" data-post-slug="{{ post.slug }}">
-          {% if post.is_enjoyed %}
-          <i class="fa-solid fa-bookmark"></i> Đã lưu
-          {% else %}
-          <i class="fa-regular fa-bookmark"></i> Lưu
-          {% endif %}
-        </button>
+        <div>
+          <button class="btn btn-outline-dark" data-post-id="{{ post.id }}" data-post-slug="{{ post.slug }}">
+            {% if post.is_enjoyed %}
+            <i class="fa-solid fa-bookmark"></i> Đã lưu
+            {% else %}
+            <i class="fa-regular fa-bookmark"></i> Lưu
+            {% endif %}
+          </button>
+          <button class="btn btn-outline-dark btn-share" title="{{ post.title }}">
+            <i class="fa-regular fa-share-from-square"></i> Chia sẻ
+          </button>
+        </div>
       </div>
       <br>
       <hr>
@@ -60,7 +65,7 @@
           <img src="{{post.image.url}}" alt="Ảnh bài đăng">
         </div>
         <div class="co-content">
-          <h5 class="co-title"><a href="/post/{{post.slug}}/">{{post.title}}</a></h5>
+          <h5 class="co-title"><a href="/post/{{ post.slug }}/">{{ post.title }}</a></h5>
           <span class="co-body">{{ post.body|safe|first_sentence|safe }}</span><br>
           <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="co-section">{{ post.section.title }}</a>
         </div>
