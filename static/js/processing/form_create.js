@@ -37,7 +37,7 @@ if (formCreate) {
       const confirmSend = confirm('Xác nhận gửi bản nháp đến Tổng biên tập?')
       if (confirmSend) {
         const inputHidden = formCreate.querySelector('[hidden]')
-        inputHidden.value = 'send'
+        inputHidden.value = 'true'
       }
       formCreate.submit()
     } else {

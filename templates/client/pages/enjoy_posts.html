@@ -14,6 +14,7 @@
       <span class="mb-2 mt-5">Tin tức 24h</span>
       <h2>Bài viết đã lưu</h2>
       <hr>
+      {% if enjoys %}
       {% for enjoy in enjoys %}
       <div class="post-div">
         <div class="post-time d-flex gap-4">
@@ -31,6 +32,9 @@
         </div>
       </div>
       {% endfor %}
+      {% else %}
+      <div class="text-center mt-2" style="font-size: 17px;">Chưa lưu bài viết nào</div>
+      {% endif %}
     </div>
   </div>
 </div>

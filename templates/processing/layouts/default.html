@@ -23,11 +23,11 @@
   {% include '../partials/header.html' %}
 
   <!-- Nội dung chính của page -->
-  <div class="container mt-3 mb-3">
-    {% include '../partials/alert.html' %}
+  <main class="container mt-3 mb-3">
+    {% include 'common/alert.html' %}
     {% block main %}
     {% endblock %}
-  </div>
+  </main>
   <!-- Nội dung js của page  -->
    {% block js %}
    {% endblock %}

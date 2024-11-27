@@ -1,21 +1,19 @@
-const formDelete = document.querySelector("[form-delete]");
-if (formDelete) {
-  const btnDelete = formDelete.querySelector("[btn-delete]");
+const formAction = document.querySelector("[form-action]");
+const btnSend = document.querySelector('[btn-send]')
+const btnDelete = document.querySelector('[btn-delete]')
+if (formAction) {
   btnDelete.addEventListener("click", () => {
-    confirmDelete = confirm("Xác nhận xóa bản nháp?");
+    const confirmDelete = confirm("Xác nhận xóa bản nháp?");
     if (confirmDelete) {
-      formDelete.submit();
+      formAction.querySelector('[hidden]').value = 'delete'
+      formAction.submit();
     }
   });
-}
-
-const formSend = document.querySelector('[form-send]')
-if (formSend) {
-  const buttonSend = formSend.querySelector('[btn-send]')
-  buttonSend.addEventListener('click', () => {
-    const confirmSend = confirm('Xác nhận gửi bản nháp đến Tổng biên tập?')
+  btnSend.addEventListener('click', () => {
+    const confirmSend = confirm('Xác nhận gửi bản nháp tới Tổng biên tập?')
     if (confirmSend) {
-      formSend.submit()
+      formAction.querySelector('[hidden]').value = 'send'
+      formAction.submit()
     }
   })
 }

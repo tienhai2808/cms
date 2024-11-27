@@ -49,7 +49,7 @@ if (formActionMulti) {
           return;
         }
       } else {
-        alert("Vui lòng chọn bản nháp");
+        alert("Vui lòng chọn ý kiến");
         return;
       }
     }

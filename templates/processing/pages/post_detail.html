@@ -1,58 +1,64 @@
 {% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
+{% endblock %}
 
 {% block main %}
-{{ post.status }} <br>
-{{ post.title }} <br>
-<img src="{{post.image.url}}"  height="100px" alt="Ảnh bài báo">
-{{ post.body|safe }}
-
-{% if request.user == post.updated_by or request.user.groups.first.name == 'Approver'%}
-{% for req in req_edits %}
-{{req.status}} - {{req.created_at}}<br>
-{{req.content}} <br> <br>
-{% endfor %}
-{% endif %}
-
-<div class="cua d-flex gap-1">
-  {% if post.status == 'Chờ sửa' and post.updated_by == request.user %}
-  <a href="/processing/update-post/{{post.id}}/" class="btn btn-info" title="Chỉnh sửa">Sửa bài viết</a>
-  <form form-send method="POST">
-    {% csrf_token %}
-    <input name="send" hidden value="true">
-    <button type="button" class="btn btn-dark" btn-send>Gửi bài viết</button>
-  </form>
-
-  {% elif request.user.groups.first.name == 'Approver' and post.status == 'Chờ duyệt' %}
-  {% include '../partials/form_accpet.html' %}
-  <button class="btn btn-success" btn-accept>Duyệt</button>
-  <form method="POST" form-refuse>
-    {% csrf_token %}
-    <input hidden name="refuse" value="true">
-    <button class="btn btn-danger" type="button" btn-refuse>Từ chối</button>
-  </form>
-
-  {% elif request.user.groups.first.name == 'Approver' and post.status == 'Chờ đăng' %}
-  {% include '../partials/form_post.html' %}
-  <button class="btn btn-success" btn-accept>Đăng</button>
-
-  {% include '../partials/form_request.html' %}
-  <button class="btn btn-warning" btn-request >Sửa lại</button>
-
-  <form form-delete method="POST">
-    {% csrf_token %}
-    <input hidden name="delete" value="true">
-    <button type="button" class="btn btn-danger" btn-delete>Xóa</button>
-  </form>
-  {% endif %}
+<h2 class="text-center">{{ post.title }}</h2>
+<div class="d-flex justify-content-between mb-3 gap-3" style="align-items: center;">
+  <div>
+    <div class="d-flex gap-3">
+      <div>Ngày tạo: <strong><i>{{ post.created_at|date:"H:i d/m/Y" }}</i></strong></div>
+      <div>Người tạo: <strong><i>{{ post.created_by.first_name }} {{ post.created_by.last_name }}</i></strong></div>
+    </div>
+    {% if post.updated_by %}
+    <div class="d-flex gap-3">
+      <div>Sửa gần đây: <strong><i>{{ post.updated_at|date:"H:i d/m/Y" }}</i></strong></div>
+      <div>Người sửa: <strong><i>{{ post.updated_by.first_name }} {{ post.created_by.last_name }}</i></strong></div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="d-flex gap-3 position-relative" style="align-items: center;">
+    <h5>Trạng thái: <i>{{ post.status }}</i></h5>
+    <div class="d-flex gap-1">    
+      {% if user.groups.first.name == 'Approver' and post.status == 'Chờ duyệt' %}
+      <button class="btn btn-success" btn-accept>Duyệt</button>
+      <button class="btn btn-danger" btn-refuse>Từ chối</button>
+      <form method="POST" form-pending>
+        {% csrf_token %}
+        <input hidden name="pending">
+      </form>
+      {% elif post.status == 'Chờ sửa' and user.groups.first.name == 'Approver' or user.profile.take_charge == post.section.topic %}
+      <a href="/processing/update-post/{{ post.slug }}/" class="btn btn-warning">Sửa</a>
+      <form method="POST" form-send>
+        {% csrf_token %}
+        <input hidden name="send" value="true">
+        <button class="btn btn-success" type="button" btn-send>Gửi</button>
+      </form>
+    
+      {% elif user.groups.first.name == 'Approver' and post.status == 'Chờ đăng' %}
+      <a href="/processing/update-post/{{ post.slug }}/" class="btn btn-warning">Sửa</a>
+      {% include '../partials/form_post.html' %}
+      <button class="btn btn-success" btn-post>Đăng</button>
+    
+      <form form-delete method="POST">
+        {% csrf_token %}
+        <input hidden name="action" value="delete">
+        <button type="button" class="btn btn-danger" btn-delete>Xóa</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
 </div>
+<div class="d-flex justify-content-center mb-4">
+  <img src="{{ post.image.url }}" class="post-img" alt="Ảnh bài viết">
+</div>
+<div class="mb-3" style="font-size: 20px;">{{ post.body|safe }}</div>
+<br><br>
 {% endblock %}
 
 {% block js %}
-{% load static %}
 <script src="{% static 'js/processing/post_detail.js' %}" defer></script>
-{% endblock %}
-
-{% block css %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
 {% endblock %}

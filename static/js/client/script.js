@@ -1,17 +1,3 @@
-const showAlert = document.querySelectorAll("[show-alert]")
-if (showAlert.length > 0) {
-  showAlert.forEach((alert) => {
-    const closeAlert = alert.querySelector('.close-alert')
-    setTimeout (() => {
-      alert.classList.add("alert-hidden")
-    }, 5000)
-    closeAlert.addEventListener('click', () => {
-      alert.classList.add("alert-hidden")
-    })
-  })
-}
-
-
 // Chèn Thứ - Ngày - Tháng - Năm vào Header
 const options = { weekday: "long", year: "numeric", month: "numeric", day: "numeric", };
 const today = new Date().toLocaleDateString("vi-VN", options);

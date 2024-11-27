@@ -22,6 +22,9 @@
         <img class="post-img" src="{{ post.image.url }}" alt="Ảnh bài viết">
       </div>
       <div class="mb-3" style="font-size: 20px;">{{ post.body|safe }}</div>
+      <div class="d-flex justify-content-end">
+        <strong style="font-size: 18px;">{{ post.created_by.first_name }} {{post.created_by.last_name }}</strong>
+      </div>
       <br>
       <div class="d-flex" style="justify-content: space-between; width: 100%;">
         <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-left me-2"></i>{{ post.section.title }}</a>
@@ -31,7 +34,7 @@
           <button class="btn btn-outline-dark"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
         <div>
-          <button class="btn btn-outline-dark" data-post-id="{{ post.id }}" data-post-slug="{{ post.slug }}">
+          <button class="btn btn-outline-dark btn-enjoy" data-post-slug="{{ post.slug }}">
             {% if post.is_enjoyed %}
             <i class="fa-solid fa-bookmark"></i> Đã lưu
             {% else %}
@@ -46,19 +49,23 @@
       <br>
       <hr>
       <div>
-        <h3 style="text-align: center;">Ý kiến ({{ post.post_comment.all.count }})</h3>
-        {% for cmt in post.post_comment.all %}
-        <div style="width: 100%;" class="pe-4 ps-4 gap-3 d-flex">
+        <h4 class="text-center mb-3">Ý kiến ({{ comments.count }})</h4>
+        {% if comments %}
+        {% for cmt in comments %}
+        <div class="w-100 px-4 mb-4 gap-3 d-flex">
           <img class="user-img" src="{{ cmt.user.profile.avt.url }}" alt="Ảnh người dùng">
           <div>
-            <span style="font-size: 17px;"><strong>{{ cmt.user.username }}  </strong>  {{ cmt.content }}</span>
+            <span style="font-size: 17px;"><strong class="me-1">{{ cmt.user.username }} </strong>  {{ cmt.content }}</span>
+            <div class="d-flex justify-content-end" style="color: grey;">{{ cmt.created_at|custom_time_display }}</div>
           </div>
         </div>
-        <center><hr width="60%"></center>
         {% endfor %}
+        {% else %}
+        <div class="text-center" style="font-size: 17px;">Chưa có ý kiến nào</div>
+        {% endif %}
       </div>
       <hr>
-      <h3 style="text-align: center;">Dành cho bạn</h3>
+      <h4 class="text-center">Dành cho bạn</h4>
       {% for post in co_topic %}
       <div class="co-div">
         <div class="co-img">
@@ -67,7 +74,9 @@
         <div class="co-content">
           <h5 class="co-title"><a href="/post/{{ post.slug }}/">{{ post.title }}</a></h5>
           <span class="co-body">{{ post.body|safe|first_sentence|safe }}</span><br>
-          <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="co-section">{{ post.section.title }}</a>
+          <div>
+            <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="co-section">{{ post.section.title }}</a>
+          </div>
         </div>
       </div>
       {% endfor %}

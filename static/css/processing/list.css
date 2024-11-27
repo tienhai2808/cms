@@ -1,0 +1,51 @@
+.div-img {
+  max-width: 200px;
+  height: 114px;
+  overflow: hidden;
+  aspect-ratio: 240/14;
+}
+
+.div-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.div-body a {
+  font-size: 18px;
+  font-weight: 700;
+  color: black !important;
+  text-decoration: none;
+}
+
+.created-by {
+  color: grey;
+}
+
+.created-at {
+  font-size: 14px;
+}
+
+.badge {
+  cursor: pointer;
+}
+
+.text-bg-light a {
+  text-decoration: none !important;
+  color: #212529 !important;
+}
+
+.div-section {
+  position: fixed;
+  width: 50vw;
+  height: 45vh;
+  top:25%;
+  right: 25%;
+  background-color: black;
+}
+
+.fa-circle-xmark {
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}

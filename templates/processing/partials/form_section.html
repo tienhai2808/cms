@@ -1,0 +1,17 @@
+<div class="div-section p-4 d-none">
+  <div class="container">
+    <div class="d-flex justify-content-end"><i class="fa-regular fa-circle-xmark"></i></div>
+    <h3 class="text-light" style="text-align: center;">Tạo mới danh mục bài viết</h3>
+    <form class="form-section container" method="POST">
+      {% csrf_token %}
+      <input type="text" hidden name="action" value="create">
+      <label for="title" class="fw-semibold text-info">Tên danh mục:</label>
+      {{ form.title }}
+      <br>
+      <label for="topic" class="fw-semibold text-info">Chủ đề:</label>
+      {{ form.topic }}
+      <br>
+      <center><button class="btn btn-success">Tạo</button></center>
+    </form>
+  </div>
+</div>

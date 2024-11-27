@@ -13,24 +13,21 @@ const getCookie = (name) => {
 };
 const csrftoken = getCookie("csrftoken");
 
-const btnEnjoy = document.querySelector("[data-post-id]");
+const btnEnjoy = document.querySelector(".btn-enjoy");
 btnEnjoy.addEventListener("click", (e) => {
-  const checkUser = document
-    .querySelector("[form-comment]")
-    .getAttribute("user");
+  const checkUser = document.querySelector("[form-comment]").getAttribute("user");
   if (!checkUser) {
     window.location.href = "/login/";
     e.preventDefault();
     return;
   } else {
     e.preventDefault();
-    const postId = btnEnjoy.getAttribute("data-post-id");
     const postSlug = btnEnjoy.getAttribute("data-post-slug");
     $.ajax({
       type: "POST",
       url: `/post/${postSlug}/`,
       data: {
-        enjoy: postId,
+        enjoy: 'Hello world',
         csrfmiddlewaretoken: csrftoken,
       },
       success: (res) => {

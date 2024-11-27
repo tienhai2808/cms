@@ -1,0 +1,20 @@
+.btn-teal {
+  background-color: #009688 !important;
+  color: white !important;
+}
+
+.table-teal {
+  --bs-table-bg: #009688 !important;
+  --bs-table-color: white !important;
+}
+
+.text-bg {
+  color: #009688 !important;
+  background-color: white !important;
+}
+
+.bg-text {
+  background-color: #009688 !important;
+  color: white;
+  border: none;
+}

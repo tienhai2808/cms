@@ -3,7 +3,7 @@
 
 {% block main %}
 <div class="container">
-  <h1>Tất cả bài viết</h1>
+  <h1 class="text-center mt-2 mb-4">Tất cả bài viết</h1>
   <div class="d-flex" style="justify-content: space-between;">
     <form form-action-multi method="POST">
       <div class="d-flex gap-5" style="align-items: center;">
@@ -18,9 +18,10 @@
             <select select-action class="form-select" name="action" style="height: 37.6px;">
               <option selected value="">Chọn hành động</option>
               <option value="reset-time">Xét lại thời gian</option>
+              <option value="remove">Gỡ bài viết</option>
               <option value="delete">Xóa bài viết</option>
             </select>
-            <button btn-confirm type="button" style="width: 135px; height: 37.6px;" class="btn btn-dark" >Xác nhận</button>
+            <button btn-confirm type="button" style="width: 135px; height: 37.6px;" class="btn btn-teal" >Xác nhận</button>
           </div>
         </div>
       </div>
@@ -37,12 +38,12 @@
     </form>
     {% include '../partials/filter_post.html' %}
   </div>
-
   <br>
   <table class="table table-hover table-bordered">
-    <thead class="table-dark">
+    <thead class="table-teal">
       <tr>
-        <th scope="col">Checkbox</th>
+        <th scope="col">Check</th>
+        <th scope="col">Thời gian đăng</th>
         <th scope="col">Tiêu đề</th>
         <th scope="col">Lượt xem</th>
         <th scope="col">Quan tâm</th>
@@ -53,11 +54,14 @@
     <tbody>
       {% for post in page_obj %}
       <tr>
-        <td><input checkbox value="{{post.id}}" type="checkbox"></td>
-        <td>{{ post.title|truncatechars:40 }}</td>
+        <td><input checkbox value="{{ post.id }}" type="checkbox"></td>
+        <td>{{ post.posted_at|date:"H:i, d/m/y" }}</td>
+        <td>
+          <a class="text-dark" style="text-decoration: none !important;" href="/post/{{ post.slug }}/">{{ post.title|truncatechars:60 }}</a>
+        </td>
         <td>{{ post.views }}</td>
-        <td>{{ post.enjoys_by.all.count }}</td>
-        <td>{{ post.post_comment.all.count }}</td>
+        <td>{{ post.post_enjoys.count }}</td>
+        <td>{{ post.count_comment }}</td>
         {% if not post.start_time %}
         <td>Mọi khung giờ</td>
         {% else %}

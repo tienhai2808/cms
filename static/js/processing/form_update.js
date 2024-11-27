@@ -27,22 +27,15 @@ if (formUpdate) {
   const btnSend = formUpdate.querySelector('[btn-send]')
   if (btnSend) {
     btnSend.addEventListener('click', () => {
-      const confirmSend = confirm('Xác nhận gửi bản nháp đến Tổng biên tập?')
-      if (confirmSend) {
-        const inputHidden = formUpdate.querySelector('[hidden]')
-        inputHidden.value = 'send'
-        formUpdate.submit()
-      }
-    })
-  }
-  const btnSubmit = formUpdate.querySelector('[btn-turnon]')
-  if (btnSubmit) {
-    btnSubmit.addEventListener('click', () => {
-      const confirmSubmit = confirm('Xác nhận gửi bài viết đến Tổng biên tập?')
-      if (confirmSubmit) {
-        const inputHidden = formUpdate.querySelector('[hidden]')
-        inputHidden.value = 'turnon'
-        formUpdate.submit()
+      if (formUpdate.checkValidity()) {
+        const confirmSend = confirm('Xác nhận gửi đến Tổng biên tập?')
+        if (confirmSend) {
+          const inputHidden = formUpdate.querySelector('[hidden]')
+          inputHidden.value = 'true'
+          formUpdate.submit()
+        }
+      } else {
+        formUpdate.reportValidity()
       }
     })
   }

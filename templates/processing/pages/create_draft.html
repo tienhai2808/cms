@@ -1,17 +1,20 @@
 {% extends '../layouts/default.html' %}
+{% load static %}
 
 {% block main %}
 <div class="container">
   <div class="row d-flex justify-content-center">
-    <div class="col-8">
-      <h4>Tạo bản nháp bài viết</h4>
-      <form action="" method="POST" enctype="multipart/form-data" form-create>
+    <div class="col-12">
+      <h1 class="text-center">Tạo bản nháp bài viết</h1>
+      <form method="POST" enctype="multipart/form-data" form-create>
         {% csrf_token %}
         {{ form_cp.as_p }}
         {{ form_cp.media }}
-        <button type="submit" class="btn btn-dark">Tạo bản nháp</button>
         <input hidden  name="send" value="">
-        <button type="button" btn-send class="btn btn-success">Gửi bản nháp</button>
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-dark">Tạo bản nháp</button>
+          <button type="button" btn-send class="btn btn-success">Gửi bản nháp</button>
+        </div>
       </form>
     </div>
   </div>
@@ -19,6 +22,5 @@
 {% endblock %}
 
 {% block js %}
-{% load static %}
-<script src="{% static 'js/processing/form_post.js' %}" defer></script>
+<script src="{% static 'js/processing/form_create.js' %}"></script>
 {% endblock %}

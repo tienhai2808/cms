@@ -1,15 +1,26 @@
-.cua {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
+.post-img {
+  max-width: 50vw;
+  height: auto;
 }
 
-.div-accept, .div-post, .div-request {
+figure {
+  display: flex;
+  justify-content: center;
+  width: 100% !important;
+}
+
+figure img {
+  max-width: 50vw;
+  max-height: auto;
+  height: auto;
+}
+
+.div-post {
   position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top:0;
-  right: 0;
+  width: 50vw;
+  height: 45vh;
+  top:25%;
+  right: 25%;
   background-color: black;
 }
 

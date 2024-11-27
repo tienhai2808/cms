@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import Post, Topic, Profile
+from .models import Profile
 
 
 class UpdateUserForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
   class Meta:
     model = Profile
-    exclude = ['user', 'age_band']
+    exclude = ['user', 'age_band', 'take_charge']
     widgets = {'dob': forms.DateInput(attrs={'type': 'date'}),}
     
 

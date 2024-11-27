@@ -35,7 +35,12 @@
             <a class="btn btn-dark btn-custom" href="/update-profile/">Chỉnh sửa hồ sơ</a>
             <a class="btn btn-dark btn-custom" href="/enjoyed/">Bài viết đã lưu</a>
           </div>
-          <a class="btn btn-dark btn-custom" href="/logout/">Đăng xuất</a>
+          <div>
+            {% if user.groups.first.name != 'Client' %}
+            <a class="btn btn-dark btn-custom" href="/processing/">Trung tâm xử lý bài viết</a>
+            {% endif %}
+            <a class="btn btn-dark btn-custom" href="/logout/">Đăng xuất</a>
+          </div>
         </div>
       </div>
     </div>

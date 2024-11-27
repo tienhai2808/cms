@@ -1,41 +1,39 @@
 {% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
+{% endblock %}
 
 {% block main %}
-{{ draft.status }} <br>
-{{ draft.title }} <br>
-<img src="{{draft.image.url}}"  height="100px" alt="Ảnh bài báo">
-{{ draft.body|safe }}
-
-<div class="cua d-flex gap-1">
-  {% if draft.status == 'Chờ gửi' %}
-  <form form-send method="POST">
-    {% csrf_token %}
-    <input type="text" hidden name="send" value="true">
-    <button btn-send type="button" class="btn btn-success">Gửi bản nháp</button>
-  </form>
-  <a href="/processing/update-draft/{{draft.slug}}/" class="btn btn-warning" title="Sửa bài viết">Sửa bản nháp</a>
-  <form form-delete method="POST">
-    {% csrf_token %}
-    <input type="text" hidden name="delete" value="true">
-    <button btn-delete type="button" class="btn btn-danger">Xóa bản nháp</button>
-  </form>
-  {% endif %}
-  {% if draft.status == 'Từ chối' %}
-  <form form-delete method="POST">
-    {% csrf_token %}
-    <input type="text" hidden name="delete" value="true">
-    <button btn-delete type="button" class="btn btn-danger">Xóa bản nháp</button>
-  </form>
-  {% endif %}
+<h2 class="text-center">{{ post.title }}</h2>
+<div class="d-flex justify-content-between mb-3 gap-3" style="align-items: center;">
+  <div>
+    <div class="d-flex gap-3">
+      <div>Ngày tạo: <strong><i>{{ post.created_at|date:"H:i d/m/Y" }}</i></strong></div>
+      <div>Người tạo: <strong><i>{{ post.created_by.first_name }} {{ post.created_by.last_name }}</i></strong></div>
+    </div>
+  </div>
+  <div class="d-flex gap-3" style="align-items: center;">
+    <h5>Trạng thái: <i>{{ post.status }}</i></h5>
+    <div class="d-flex gap-1">  
+      <a href="/processing/update-draft/{{ post.slug }}/" class="btn btn-warning">Sửa</a>
+      <button class="btn btn-success" btn-send>Gửi {% if post.status == 'Từ chối' %}lại{% endif %}</button>
+      <button class="btn btn-danger" btn-delete>Xóa</button>
+      <form method="POST" form-action>
+        {% csrf_token %}
+        <input hidden name="action">
+      </form>    
+    </div>
+  </div>
 </div>
+<div class="d-flex justify-content-center mb-4">
+  <img src="{{ post.image.url }}" class="post-img" alt="Ảnh bài viết">
+</div>
+<div class="mb-3" style="font-size: 20px;">{{ post.body|safe }}</div>
+<br><br>
 {% endblock %}
 
 {% block js %}
-{% load static %}
 <script src="{% static 'js/processing/draft_detail.js' %}" defer></script>
-{% endblock %}
-
-{% block css %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
 {% endblock %}

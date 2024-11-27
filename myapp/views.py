@@ -76,7 +76,8 @@ def account(request):
 
 def index(request):
   title = 'Báo VnExpress - Báo tiếng Việt nhiều người xem nhất'
-  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng').order_by('-posted_at')
+  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                              status='Đã đăng').order_by('-posted_at')[:30]
   paginator = Paginator(posts, 8)
   page_number = request.GET.get('page', '')
   try:
@@ -91,7 +92,8 @@ def index(request):
 def topic(request, slug_topic):
   try:
     topic = Topic.objects.get(slug=slug_topic)
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', section__topic=topic).order_by('-posted_at')
+    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                                status='Đã đăng', section__topic=topic).order_by('-posted_at')
     title = topic.title
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
@@ -110,7 +112,8 @@ def topic(request, slug_topic):
 def section(request, slug_topic, slug_section):
   try:
     section = Section.objects.get(slug=slug_section, topic__slug=slug_topic)
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', section=section).order_by('-posted_at')
+    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                                status='Đã đăng', section=section).order_by('-posted_at')
     title = section.title
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
@@ -128,27 +131,31 @@ def section(request, slug_topic, slug_section):
 
 def post_detail(request, slug):
   try:
-    post = Post.objects.get(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', slug=slug)
+    post = Post.objects.get(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                            status='Đã đăng', slug=slug)
     title = post.title
     post.views += 1
     post.save()
-    co_topic = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), status='Đã đăng', section__topic__title=post.section.topic.title).exclude(slug=slug).order_by('?')[:11]
+    comments = Comment.objects.filter(post=post, status='Đã duyệt')
+    co_topic = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                                   status='Đã đăng', section__topic__title=post.section.topic.title).exclude(slug=slug).order_by('?')[:11]
     if request.user.is_authenticated:
-      post.is_enjoyed = request.user.enjoys.filter(post=post).exists()
+      post.is_enjoyed = request.user.user_enjoys.filter(post=post).exists()
       if request.POST:
         cmt = request.POST.get('comment', '')
         if cmt:
           Comment.objects.create(user=request.user, post=post, content=cmt)
-        id_enjoy = request.POST.get('enjoy', '')
-        if id_enjoy:
-          post = Post.objects.get(id=id_enjoy)
+          messages.info(request, 'Đã gửi ý kiến, vui lòng chờ duyệt')
+          return redirect('post-detail', slug)
+        enjoy_content = request.POST.get('enjoy', '')
+        if enjoy_content:
           enjoy, created = Enjoy.objects.get_or_create(user=request.user, post=post)
           if not created:
             enjoy.delete()
             return JsonResponse({'status': 'removed'})
           else:
             return JsonResponse({'status': 'added'}) 
-    context = {'title': title, 'post':post, 'co_topic': co_topic}
+    context = {'title': title, 'post':post, 'comments':comments, 'co_topic': co_topic}
     return render(request, 'client/pages/post_detail.html', context)
   except Post.DoesNotExist:
     return redirect('/')
@@ -162,7 +169,7 @@ def update_profile(request):
       if form_u.is_valid() and form_p.is_valid():
         form_u.save()
         form_p.save()
-        messages.success(request, 'Chỉnh sửa hồ sơ thành tài')
+        messages.success(request, 'Chỉnh sửa hồ sơ thành công')
         return redirect('account')
     context = {'title': title,
                'form_u': form_u,
@@ -193,7 +200,9 @@ def change_password(request):
 def enjoy_posts(request):
   if request.user.is_authenticated:
     title = f'Bài viết đã lưu'
-    enjoys = request.user.enjoys.filter(Q(post__start_time=None, post__end_time=None) | Q(post__start_time__lte=time_now, post__end_time__gte=time_now), post__status='Đã đăng')
+    enjoys = request.user.user_enjoys.filter(
+      Q(post__start_time=None, post__end_time=None) | Q(post__start_time__lte=time_now, post__end_time__gte=time_now), 
+      post__status='Đã đăng')
     context = {'title': title,
                'enjoys': enjoys}
     return render(request,'client/pages/enjoy_posts.html', context)
@@ -204,7 +213,8 @@ def search(request):
   keyword = request.GET.get('q', '')
   if keyword:
     title = f"Kết quả tìm kiếm từ khóa '{keyword}'"
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), Q(slug__icontains = slugify(keyword))|Q(body__icontains = keyword), status='Đã đăng').order_by('-posted_at')
+    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+                                Q(slug__icontains = slugify(keyword))|Q(body__icontains = keyword), status='Đã đăng').order_by('-posted_at')
   else:
     title = 'Tìm kiếm bài viết'
     posts = None

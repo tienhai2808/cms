@@ -1,26 +1,34 @@
 {% extends '../layouts/default.html' %}
+{% load static %}
 
 {% block main %}
 <div class="container"></div>
   <div class="row d-flex justify-content-center">
-    <div class="col-8">
-      {% if request.user.groups.first.name == 'Contributor' %}
-      <h4>Chỉnh sửa bản nháp</h4>
+    <div class="col-12">
+      {% if user.groups.first.name == 'Contributor' %}
+      <h1 class="text-center">Chỉnh sửa bản nháp</h1>
       {% else %}
-      <h4>Chỉnh sửa bản nháp</h4>
+      <h1 class="text-center">Chỉnh sửa bài viết</h1>
       {% endif %}
-      <form action="" form-update method="POST" enctype="multipart/form-data">
+      <form form-update method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form_up.as_p }}
         {{ form_up.media }}
-        <button btn-save type="submit" class="btn btn-dark">Lưu</button>
-        {% if request.user.groups.first.name == 'Contributor' %}
+        {% if post.status == 'Chờ sửa' %}
         <input hidden  name="send" value="">
-        <button type="button" btn-send class="btn btn-success">Gửi bản nháp</button>
-        {% else %}
-        <input hidden name="turnon" value="">
-        <button type="button" btn-turnon class="btn btn-success">Gửi bài viết</button>
         {% endif %}
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-dark">Lưu</button>
+          {% if post.status == 'Chờ sửa' %}
+          <button type="button" btn-send class="btn btn-success">
+            {% if user.groups.first.name == 'Contributor' %}
+            Gửi bản nháp
+            {% else %}
+            Gửi bài viết
+            {% endif %}
+          </button>
+          {% endif %}
+        </div>
       </form>
     </div>
   </div>
@@ -28,6 +36,5 @@
 {% endblock %}
 
 {% block js %}
-{% load static %}
 <script src="{% static 'js/processing/form_update.js' %}" defer></script>
 {% endblock %}

@@ -1,8 +1,14 @@
 {% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/processing/list.css' %}">
+{% endblock %}
 
 {% block main %}
-
-<div class="d-flex" style="justify-content: space-between;">
+<h1 class="text-center">Các bản nháp của bạn</h1>
+{% if posts %}
+<div class="d-flex justify-content-between">
   <form form-action-multi method="POST" class="d-flex gap-5" style="align-items: center;">
     {% csrf_token %}
     <input type="text" hidden ids name="post-ids">
@@ -11,17 +17,15 @@
       <input checkbox-all type="checkbox">
     </div>
     <div class="d-flex gap-2">
-      <select class="form-select" name="action">
+      <select class="form-select" name="action" style="height: 37.6px;">
         <option selected value="">Chọn hành động</option>
-        {% if status == 'Chờ gửi' %}
         <option value="send">Gửi bản nháp</option>
-        {% endif %}
         <option value="delete">Xóa bản nháp</option>
       </select>
-      <button btn-confirm type="button" style="width: 135px;" class="btn btn-dark">Xác nhận</button>
+      <button btn-confirm type="button" style="width: 135px; height: 37.6px;" class="btn btn-dark" >Xác nhận</button>
     </div>
   </form>
-  <form action="" class="d-flex gap-2" style="align-items: center;">
+  <form class="d-flex gap-2" style="align-items: center;">
     <select class="form-select" name="status" style="height: 37.6px;">
       <option {% if not status %} selected {% endif %} value="">Tất cả</option>
       <option {% if status == 'Chờ gửi' %} selected {% endif %}>Chờ gửi</option>
@@ -31,18 +35,31 @@
   </form>
 </div>
 
-
-{% for draft in drafts %}
-<input checkbox value="{{draft.id}}" type="checkbox">
-<a href="/processing/draft/{{draft.slug}}/">{{draft.title}}</a><br>
-{{ draft.section.topic.title }} - {{ draft.section.title }} <br>
-{{ draft.status }} <br>
-<img src="{{draft.image.url}}" height="100px" alt="Ảnh bài viết"> <br>
-{{draft.body|safe}} 
+{% for post in posts %}
+<br>
+<div class="d-flex mb-3">
+  <div class="me-2 pt-1">
+    <input checkbox value="{{ post.id }}" type="checkbox">
+  </div>
+  <div class="border py-2 px-2 d-flex w-100 gap-4">
+    <div class="div-img">
+      <img src="{{ post.image.url }}" alt="Ảnh">
+    </div>
+    <div class="div-body">
+      <a href="/processing/drafts/{{ post.slug }}/">{{ post.title }}</a> <br>
+      <div><strong><i>{{ post.section }}</i></strong></div>
+      <div class="created-by">Trạng thái: <i>{{ post.status }}</i></div>
+      <div class="created-at">Ngày tạo: <i>{{ post.created_at }}</i></div>
+    </div>
+  </div>
+</div>
 {% endfor %}
+{% else %}
+<br><br>
+<h4 class="text-center">Không tìm thấy bản nháp của bạn</h4>
+{% endif %}
 {% endblock %}
 
 {% block js %}
-{% load static %}
-<script src="{% static 'js/processing/draft_list.js' %}" defer></script>
+<script src="{% static 'js/processing/list.js' %}" defer></script>
 {% endblock %}

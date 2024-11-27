@@ -1,0 +1,50 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/processing/list.css' %}">
+{% endblock %}
+
+{% block main %}
+<h1 class="text-center">Các danh mục bài viết</h1>
+<div class="d-flex justify-content-end mb-2 position-relative">
+  <button class="btn btn-dark btn-create"><i class="fa-solid fa-plus pe-2"></i> Thêm danh mục</button>
+  {% include '../partials/form_section.html' %}
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Tên danh mục</th>
+      <th scope="col">Chủ đề</th>
+      <th scope="col">Hành động</th>
+    </tr>
+  </thead>
+  {% for section in sections %}
+  <tbody>
+    <tr>
+      <th scope="row">{{ section.id }}</th>
+      <td>{{ section.title }}</td>
+      <td>{{ section.topic.title }}</td>
+      <td>
+        <span class="badge rounded-pill text-bg-light me-4">
+          <a href="{{ section.slug }}/">Sửa</a>
+        </span>
+        <span class="badge rounded-pill text-bg-dark btn-delete" id="{{ section.id }}">Xóa</span>
+      </td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+<form method="post" form-delete>
+  {% csrf_token %}
+  <input hidden type="text" name="action" value="delete">
+  <input type="text" hidden name="id_section">
+</form>
+<br><br>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/processing/sections.js' %}"></script>
+{% endblock %}
