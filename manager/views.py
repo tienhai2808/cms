@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from myapp.models import *
 from django.db.models.functions import TruncDate
 from django.db.models import Count, Min, Q, Sum
-from .utils import generate_date_range
+from .utils import *
 from datetime import datetime
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
@@ -12,9 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import user_passes_test
 
 # Create your views here.
-def is_manager(user):
-  return user.is_superuser or user.groups.filter(name='Approver').exists()
-
 @user_passes_test(is_manager, login_url='/', redirect_field_name=None)
 def pm_home(request):
   title = 'Dashboard'

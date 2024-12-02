@@ -30,7 +30,7 @@ def register(request):
         user = auth.authenticate(username=username, password=password) 
         auth.login(request, user) 
         viewed_auth(request, user)
-        messages.success(request, 'Mở Tài Khoản Thành Công') 
+        messages.success(request, 'Chào mừng bạn đến với VnExpress') 
         return redirect('home')
       else:
         messages.error(request, 'Có Vấn Đề Xảy Ra, Vui Lòng Thử Lại')
@@ -72,7 +72,7 @@ def index(request):
   title = 'Báo VnExpress - Báo tiếng Việt nhiều người xem nhất'
   posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
                               status='Đã đăng').order_by('-posted_at')[:30]
-  paginator = Paginator(posts, 2)
+  paginator = Paginator(posts, 8)
   page_number = request.GET.get('page', '')
   try:
     page_obj = paginator.get_page(page_number)
@@ -218,4 +218,3 @@ def search(request):
     posts = None
   context = {'title': title, 'keyword': keyword, 'posts': posts}
   return render(request, 'client/pages/search.html', context)
-  

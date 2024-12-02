@@ -6,30 +6,12 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
+from .utils import *
 
-# Create your views here.
-def in_group(user):
-  return user.groups.filter(name__in=['Contributor', 'Approver', 'Editor']).exists()
-
-def is_approver(user):
-  return user.groups.filter(name='Approver').exists()
-
-def is_editor(user):
-  return user.groups.filter(name__in=['Approver', 'Editor']).exists()
-
-def is_contributor(user):
-  return user.groups.filter(name__in=['Approver', 'Contributor']).exists()
-  
+# Create your views here.  
 @user_passes_test(in_group, login_url='/', redirect_field_name=None)
 def index(request):
   title = 'CMS'
-  # for user in User.objects.all():
-  #   user.date_joined = timezone.now()
-  #   user.save()
-  # for post in Post.objects.all():
-  #   if post.status == 'Đã đăng':
-  #     post.posted_at = timezone.now()
-  #     post.save()
   context = {'title': title}
   return render(request,'processing/pages/home.html', context)
 
