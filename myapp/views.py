@@ -30,7 +30,7 @@ def register(request):
         user = auth.authenticate(username=username, password=password) 
         auth.login(request, user) 
         viewed_auth(request, user)
-        messages.success(request, 'Mở Tài Xỉu Thành Công') 
+        messages.success(request, 'Mở Tài Khoản Thành Công') 
         return redirect('home')
       else:
         messages.error(request, 'Có Vấn Đề Xảy Ra, Vui Lòng Thử Lại')
