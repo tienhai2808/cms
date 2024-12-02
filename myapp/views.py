@@ -86,7 +86,7 @@ def index(request):
 def topic(request, slug_topic):
   try:
     topic = Topic.objects.get(slug=slug_topic)
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now),
                                 status='Đã đăng', section__topic=topic).order_by('-posted_at')
     title = topic.title
     paginator = Paginator(posts, 8)
