@@ -45,24 +45,6 @@
   object-fit: cover;
 }
 
-.pagination {
-  --bs-pagination-border-radius: 0 !important;
-}
-
-.page-item a {
-  font-size: 20px !important;
-}
-
-.text-bg {
-  color: #9f224e !important;
-  background-color: white !important;
-}
-
-.bg-text {
-  background-color: #9f224e !important;
-  color: white;
-  border: none;
-}
 
 .form-search input {
   height: 40px;

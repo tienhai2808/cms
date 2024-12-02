@@ -690,3 +690,22 @@ hr {
   color: grey !important;
   text-decoration: none;
 }
+
+.pagination {
+  --bs-pagination-border-radius: 0 !important;
+}
+
+.page-item a {
+  font-size: 20px !important;
+}
+
+.text-bg {
+  color: #9f224e !important;
+  background-color: white !important;
+}
+
+.bg-text {
+  background-color: #9f224e !important;
+  color: white;
+  border: .1px solid #9f224e !important;
+}
