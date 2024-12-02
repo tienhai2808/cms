@@ -24,7 +24,7 @@
             <img src="{{post.image.url}}" alt="Ảnh bài đăng">
           </div>
           <div class="post-content">
-            <h5 class="post-title"><a href="/post/{{post.slug}}/">{{post.title}}</a></h5>
+            <h5 class="post-title"><a href="/posts/{{post.slug}}/">{{post.title}}</a></h5>
             <span class="post-body">{{ post.body|safe|first_sentence|safe }}</span>
           </div>
         </div>
@@ -32,6 +32,7 @@
       {% endfor %}
       <hr>
       {% include 'client/partials/paginator.html' %}
+      {% include '../partials/viewed_posts.html' %}
     </div>
   </div>
 </div>

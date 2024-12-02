@@ -25,7 +25,7 @@ btnEnjoy.addEventListener("click", (e) => {
     const postSlug = btnEnjoy.getAttribute("data-post-slug");
     $.ajax({
       type: "POST",
-      url: `/post/${postSlug}/`,
+      url: `/posts/${postSlug}/`,
       data: {
         enjoy: 'Hello world',
         csrfmiddlewaretoken: csrftoken,

@@ -49,3 +49,23 @@ function showMore(more) {
     more.innerText = "Xem thêm";
   }
 }
+
+// Lướt bài viết gần đây 
+const wrapper = document.querySelector('.main-viewed');
+const btnLeft = document.querySelector('.scroll-left');
+const btnRight = document.querySelector('.scroll-right');
+const postDiv = document.querySelector('.post-viewed');
+
+if (postDiv) {
+  const postWidth = postDiv.offsetWidth
+  if (btnLeft && btnRight) {
+    btnLeft.addEventListener('click', () => {
+      wrapper.scrollBy({ left: -postWidth * 2, behavior: 'smooth' });
+    });
+    
+    btnRight.addEventListener('click', () => {
+      wrapper.scrollBy({ left: postWidth * 2, behavior: 'smooth' });
+    });
+  }
+}
+

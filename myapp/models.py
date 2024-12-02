@@ -21,7 +21,7 @@ class Section(models.Model):
   slug = models.SlugField(blank=True, null=True)
   
   def __str__(self):
-    return f'{self.title} - {self.topic}'
+    return f'{self.topic} - {self.title}'
 
   def save(self, *args, **kwargs):
     self.slug = slugify(self.title)
@@ -37,6 +37,7 @@ class Profile(models.Model):
   age_band = models.CharField(max_length=10, choices=[('Ẩn', 'Ẩn'), ('18-30', '18-30'), ('31-45', '31-45'), ('46-65', '46-65'), ('65+', '65+')], default='Ẩn')
   take_charge = models.ForeignKey(Topic, on_delete=models.SET_NULL, blank=True, null=True)
   about = models.CharField(max_length=1000, blank=True, null=True)
+  recently_viewed = models.JSONField(default=list, blank=True, null=True) 
   
   @property
   def age(self):

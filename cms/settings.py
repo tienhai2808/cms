@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'myapp.context_processors.topics',
+                'myapp.context_processors.recently_viewed',
                 'processing.context_processors.len_list',
             ],
         },

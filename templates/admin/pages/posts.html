@@ -57,7 +57,7 @@
         <td><input checkbox value="{{ post.id }}" type="checkbox"></td>
         <td>{{ post.posted_at|date:"H:i, d/m/y" }}</td>
         <td>
-          <a class="text-dark" style="text-decoration: none !important;" href="/post/{{ post.slug }}/">{{ post.title|truncatechars:60 }}</a>
+          <a class="text-dark" style="text-decoration: none !important;" href="/posts/{{ post.slug }}/">{{ post.title|truncatechars:60 }}</a>
         </td>
         <td>{{ post.views }}</td>
         <td>{{ post.post_enjoys.count }}</td>

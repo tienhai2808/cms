@@ -1,0 +1,29 @@
+{% if viewed_posts %}
+<hr>
+<div class="div-viewed">
+  <h4 class="text-center mb-3">Xem gần đây</h4>
+  <div class="body-viewed">
+    {% if viewed_posts.count > 2 %}
+    <button><i class="fa-solid fa-arrow-left scroll-left"></i></button>
+    {% endif %}
+    <div class="main-viewed">
+      {% for post in viewed_posts %}
+      <div class="post-viewed">
+        <div class="img-post-viewed">
+          <img src="{{ post.image.url }}" alt="Ảnh bài viết">
+        </div>
+        <div class="body-post-viewed">
+          <div class="title-post-viewed mb-2">
+            <a href="/posts/{{ post.slug }}">{{ post.title }}</a>
+          </div>
+          <a href="/{{ post.section.topic.slug }}/" class="topic-post-viewed">{{ post.section.topic.title }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if viewed_posts.count > 2 %}
+    <button><i class="fa-solid fa-arrow-right scroll-right"></i></button>
+    {% endif %}
+  </div>
+</div>
+{% endif %}

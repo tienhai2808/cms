@@ -40,7 +40,7 @@
         <td>{{ cmt.created_at|date:"H:i, d/m/y" }}</td>
         <td>{{ cmt.user.first_name }} {{ cmt.user.last_name }}</td>
         <td>
-          <a style="text-decoration: none !important;" class="text-dark" href="/post/{{ cmt.post.slug }}/">
+          <a style="text-decoration: none !important;" class="text-dark" href="/posts/{{ cmt.post.slug }}/">
             {{ cmt.post.title|truncatechars:30 }}
           </a>
         </td>

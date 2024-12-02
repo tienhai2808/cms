@@ -52,10 +52,14 @@
         <h4 class="text-center mb-3">Ý kiến ({{ comments.count }})</h4>
         {% if comments %}
         {% for cmt in comments %}
-        <div class="w-100 px-4 mb-4 gap-3 d-flex">
-          <img class="user-img" src="{{ cmt.user.profile.avt.url }}" alt="Ảnh người dùng">
-          <div>
-            <span style="font-size: 17px;"><strong class="me-1">{{ cmt.user.username }} </strong>  {{ cmt.content }}</span>
+        <div class="w-100 mb-4">
+          <div class="px-4 gap-3 d-flex w-100">
+            <img class="user-img" src="{{ cmt.user.profile.avt.url }}" alt="Ảnh người dùng">
+            <div>
+              <span style="font-size: 17px;"><strong class="me-1">{{ cmt.user.username }} </strong>  {{ cmt.content }}</span>
+            </div>
+          </div>
+          <div class="px-4 w-100">
             <div class="d-flex justify-content-end" style="color: grey;">{{ cmt.created_at|custom_time_display }}</div>
           </div>
         </div>
@@ -72,7 +76,7 @@
           <img src="{{post.image.url}}" alt="Ảnh bài đăng">
         </div>
         <div class="co-content">
-          <h5 class="co-title"><a href="/post/{{ post.slug }}/">{{ post.title }}</a></h5>
+          <h5 class="co-title"><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></h5>
           <span class="co-body">{{ post.body|safe|first_sentence|safe }}</span><br>
           <div>
             <a href="/{{ post.section.topic.slug }}/{{ post.section.slug }}/" class="co-section">{{ post.section.title }}</a>

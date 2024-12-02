@@ -46,6 +46,14 @@ admin.site.register(User, CustomUserAdmin)
 
 
 
+# class CustomUserAdmin(ImportExportModelAdmin, UserAdmin):
+#   fieldsets = UserAdmin.fieldsets
+  
+# admin.site.unregister(User)
+# admin.site.register(User, CustomUserAdmin)
+
+
+
 # from django.contrib import admin
 # from .models import Post, Topic, Profile, Enjoy, Section, Comment
 # from django.contrib.auth.admin import UserAdmin
