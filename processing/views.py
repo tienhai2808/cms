@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from myapp.models import Post, Section, Topic
+from myapp.models import Post, Section
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test

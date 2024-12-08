@@ -69,3 +69,70 @@ if (postDiv) {
   }
 }
 
+const btnNoti = document.querySelector('.par-noti');
+const divNoti = document.querySelector('.div-noti');
+btnNoti.addEventListener('click', (e) => {
+  e.stopPropagation(); 
+  divNoti.classList.toggle('d-none');
+});
+
+document.addEventListener('click', (e) => {
+  if (!divNoti.contains(e.target) && !btnNoti.contains(e.target)) {
+    divNoti.classList.add('d-none');
+  }
+});
+
+//Thời tiết
+const locationWeather = document.querySelector('.header-weather-location')
+const infoWeather = document.querySelector('.header-weather-info')
+const imgWeather = document.querySelector('.header-weather-img')
+const apiHeader = document.querySelector('#copy-right').getAttribute('error').replace(/[^a-zA-Z0-9]/g, '')
+
+const fetchDataHeader = async (latitude, longitude) => {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiHeader}&units=metric&lang=vi`
+  try {
+    const res = await fetch(apiUrl)
+    return res.json()  
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const weatherIconHeader = (id) => {
+  if (id <= 232) return 'thunderstorm.svg'
+  if (id <= 321) return 'drizzle.svg'
+  if (id <= 531) return 'rain.svg'
+  if (id <= 622) return 'snow.svg'
+  if (id <= 781) return 'atmosphere.svg'
+  if (id <= 800) return 'clear.svg'
+  else return 'clouds.svg'
+}
+
+const loadWeatherHeader = async () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords
+      const weatherData = await fetchDataHeader(latitude, longitude)
+      updateWeatherHeader(weatherData)
+    }, async () => {
+      await fetchDefaultWeather()
+    })
+  } else {
+    await fetchDefaultWeather()
+  }
+}
+
+const fetchDefaultWeather = async () => {
+  const latDefault = 21.028511
+  const lonDefault = 105.804817
+  const weatherData = await fetchDataHeader(latDefault, lonDefault)
+  updateWeatherHeader(weatherData)
+}
+
+const updateWeatherHeader = ({ name: locat, main: { temp }, weather: [{ id }] }) => {
+  locationWeather.textContent = locat
+  infoWeather.textContent = `${Math.round(temp)}°C`
+  imgWeather.src = `/static/svg/assets/${weatherIconHeader(id)}`
+}
+
+loadWeatherHeader()

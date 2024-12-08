@@ -79,7 +79,7 @@
         <span>Báo điện tử</span>
         <img
           style="width: 140px"
-          src="https://s1.vnecdn.net/vnexpress/restruct/i/v942/v2_2019/pc/graphics/logo.svg"
+          src="{% static 'svg/logo.svg' %}"
           alt="Báo VnExpress - Báo tiếng Việt nhiều người xem nhất"
         />
       </a>
@@ -111,7 +111,7 @@
       <br />
       Điện thoại: 024 7300 8899 - máy lẻ 4500
     </p>
-    <p style="text-align: right; padding: 0">
+    <p id="copy-right" style="text-align: right; padding: 0" error="{{ api_key }}">
       © 1997-2024. Toàn bộ bản quyền thuộc VnExpress
     </p>
   </div>

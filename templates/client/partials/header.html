@@ -8,25 +8,28 @@
         <li class="line-space" style="margin: 0">
           <a href="/">
             <img
-              src="https://s1.vnecdn.net/vnexpress/restruct/i/v942/v2_2019/pc/graphics/logo.svg"
+              src="{% static 'svg/logo.svg' %}"
               alt="Báo VnExpress - Báo tiếng Việt nhiều người xem nhất"
             />
           </a>
         </li>
         <li class="line-space time"></li>
+        <li class="line-space weather">
+          <a href="/weather">
+            <span class="header-weather-location me-2"></span>
+            <img src="" class="header-weather-img">
+            <span class="header-weather-info"></span>
+          </a>
+        </li>
       </ul>
       <ul class="right" style="margin: 0 !important;">
         <li class="line-space" ><a href="#" class="news">Mới nhất</a></li>
         <li class="line-space news-area">
           <a href="#" class="area">Tin theo khu vực</a>
-          <ul class="sub-area">
-            <li><a href="#">Hà Nội</a></li>
-            <li><a href="#">TP Hồ Chí Minh</a></li>
-          </ul>
         </li>
         <li class="line-space">
           <a href="/" class="news-inter">
-            <img style="margin-bottom: 2px;" src="{% static 'imgs/favicon.ico' %}"alt=""/>
+            <img style="margin-bottom: 2px;" src="{% static 'favicon/favicon.ico' %}"alt=""/>
             International
           </a>
         </li>
@@ -48,7 +51,10 @@
             <i class="fa-regular fa-user me-2"></i>Đăng nhập
           </a>
           {% endif %}
-          <a href="#"><i class="far fa-bell icon-noti"></i></a>
+          <span class="par-noti">
+            <i class="far fa-bell icon-noti"></i>
+            {% include '../partials/notification.html' %}
+          </span>
         </li>
       </ul>
     </div>

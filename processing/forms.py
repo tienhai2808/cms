@@ -4,14 +4,14 @@ from django import forms
 class EditorPostForm(forms.ModelForm):
   class Meta:
     model = Post
-    exclude = ['created_by', 'updated_by', 'slug', 'views', 'status', 'start_time', 'end_time', 'posted_at', 'section']
+    exclude = ['created_by', 'updated_by', 'slug', 'view', 'status', 'start_time', 'end_time', 'posted_at', 'section']
     labels = {'title': 'Tiêu đề', 'image': 'Ảnh bài viết', 'body': 'Nội dung'}
 
 
 class ContributorPostForm(forms.ModelForm):
   class Meta:
     model = Post
-    exclude = ['created_by', 'updated_by', 'slug', 'views', 'status', 'start_time', 'end_time', 'posted_at']
+    exclude = ['created_by', 'updated_by', 'slug', 'view', 'status', 'start_time', 'end_time', 'posted_at']
     labels = {'title': 'Tiêu đề', 'image': 'Ảnh bài viết', 'body': 'Nội dung', 'section': 'Danh mục bài viết'}
  
   

@@ -7,7 +7,8 @@ class RecentlyViewed:
   def __init__(self, request):
     self.session = request.session
     self.request = request
-    self.recently_viewed = self.session.get('recently_viewed', [])   
+    self.recently_viewed = self.session.get('recently_viewed', [])  
+    self.user = request.user if request.user.is_authenticated else None 
     
   def add(self, post_id):
     post_id = int(post_id)
@@ -17,6 +18,10 @@ class RecentlyViewed:
     if len(self.recently_viewed) > 10:
       self.recently_viewed.pop(0)  
     self.session['recently_viewed'] = self.recently_viewed
+    if self.user:
+      profile = self.user.profile
+      profile.recently_viewed = self.recently_viewed
+      profile.save()
     self.session.modified = True
       
   def get_viewed_posts(self):

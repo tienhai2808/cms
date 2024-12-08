@@ -52,11 +52,11 @@
   width: 100%;
   border: none;
   outline: none;
-  border-bottom: .8px solid rgb(165, 165, 165);
   font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.form-search {
+.form-search{
   position: relative;
   width: 50%;
 }
@@ -66,4 +66,29 @@
   right: 10px;
   top: 12px;
   color: rgb(165, 165, 165);
+}
+
+.div-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.div-sort-by {
+  position: relative;
+}
+
+.div-sort-by select {
+  padding: 5px 8px 5px 20px;
+  font-size: 17px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.div-sort-by img {
+  position: absolute;
+  top: 25%;
+  left: 3%;
 }

@@ -1,0 +1,12 @@
+{% load static %}
+<div class="div-sort-by">
+  <form id="form-sort-by">
+    <select name="sort_by" id="select-sort-by">
+      <option {% if not sort_by %} selected {% endif %} value="">Mới nhất</option>
+      <option {% if sort_by == 'view' %} selected {% endif %} value="view">Xem nhiều</option>
+      <option {% if sort_by == 'save' %} selected {% endif %} value="save">Quan tâm nhiều</option>
+      <option {% if sort_by == 'comment' %} selected {% endif %} value="comment">Bình luận nhiều</option>
+    </select>
+  </form>
+  <img src="{% static 'favicon/favicon.ico' %}" width="14px">
+</div>

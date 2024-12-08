@@ -25,6 +25,7 @@ urlpatterns = [
     path('update-profile/change-password/', change_password, name='change-password'),    #Trang đổi mật khẩu
     path('enjoyed/', enjoy_posts, name='enjoy'),   #Trang bài viết đã lưu
     path('search/', search, name='search'),   #Trang tìm kiếm
+    path('weather/', weather, name='wearther'),   #Trang thời tiết
     path('<slug:slug_topic>/', topic, name='topic'),    #Trang các bài viết trong chủ đề
     path('<slug:slug_topic>/<slug:slug_section>/', section, name='section')   #Trang các bài viết trong danh mục
 ]

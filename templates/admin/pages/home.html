@@ -4,44 +4,45 @@
 <h1 class="text-center mt-2 mb-4">Bảng thống kê</h1>
 <div class="container">
   <div class="d-flex row" style="justify-content: center;">
-    <div class="col-8 pe-3">
+    <div class="col-6 border-dashborad">
       <canvas id="bar-chart"></canvas>
-      <h5 style="text-align: center;">Biểu đồ thanh lượt views của từng topic</h5>
+      <h5 style="text-align: center;">Biểu đồ thanh lượt xem của từng chủ đề</h5>
     </div>
-    <div class="col-4 ps-3">
+    <div class="col-3 border-dashborad">
       <canvas id="pie-chart"></canvas>
-      <h5 style="text-align: center;">Biểu đồ tròn bài đăng của từng topic</h5>
+      <h5 style="text-align: center;">Biểu đồ donut độ tuổi người dùng</h5>
+    </div>
+    <div class="col-3 border-dashborad">
+      <canvas id="pie-chart-2"></canvas>
+      <h5 style="text-align: center;">Biểu đồ tỉ lệ giới tính của người dùng</h5>    
     </div>
   </div>
   <div class="d-flex row" style="justify-content: center;">
-    <div class="col-4 pe-3">
+    <div class="col-4 border-dashborad">
       <canvas id="polar-chart"></canvas>
-      <h5 style="text-align: center;">Biểu đồ polar lượt quan người quan tâm của từng topic</h5>    
+      <h5 style="text-align: center;">Biểu đồ polar tỉ lệ quan tâm của từng chủ đề</h5>    
     </div>
-    <div class="col-8 ps-3">
-      <canvas id="line-chart"></canvas>
-      <h5 style="text-align: center;">Biểu đồ đường số lượng post từng ngày</h5>
+    <div class="col-8 border-dashborad">
+      <canvas id="mix-chart"></canvas>
+      <h5 style="text-align: center;">Biểu đồ cột và đường số lượng bài viết và ý kiến từng chủ đề</h5>
     </div>
   </div>
   <div class="row d-flex" style="justify-content: center;">
-    <div class="col-8 ps-3">
-      <canvas id="bar-chart-2"></canvas>
-      <h5 style="text-align: center;">Biểu đồ cột số lượng user theo độ tuổi</h5>
-    </div>
-    <div class="col-4 pe-3">
-      <canvas id="pie-chart-2"></canvas>
-      <h5 style="text-align: center;">Biểu đồ tỉ lệ giới tính của user</h5>    
+    <div class="col-12 border-dashborad">
+      <canvas id="mix-chart-2"></canvas>
+      <h5 style="text-align: center;">Biểu đồ cột và đường số lượng bài viết và người dùng từng ngày</h5>
     </div>
   </div>
 </div>
+<br><br>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const df_topic = {{ df_topic|safe }}
+  const df_view = {{ df_view|safe }}
   const df_label_topic = {{ df_label_topic|safe }}
-  const df_cnt_topic = {{ df_cnt_topic|safe }}
-  const df_label_cnt_topic = {{ df_label_cnt_topic|safe }}
+  const df_cnt_post = {{ df_cnt_post|safe }}
+  const df_cmt = {{ df_cmt|safe }}
   // const df_comment = {{ df_comment|safe }}
   // const df_label_comment = {{ df_label_comment|safe }}
   const df_enjoy = {{ df_enjoy|safe }}
@@ -72,14 +73,14 @@
           'rgba(255, 159, 64, 1)'
         ]
 
-  const bar_chart = document.getElementById('bar-chart');
-  new Chart(bar_chart, {
+  const barChart = document.getElementById('bar-chart');
+  new Chart(barChart, {
     type: 'bar',
     data: {
       labels: df_label_topic,
       datasets: [{
         label: 'lượt xem',
-        data: df_topic,
+        data: df_view,
         backgroundColor: bg_1,
         borderColor: bg_2,
         borderWidth: 1,
@@ -94,14 +95,14 @@
     }
   });
 
-  const pie_chart = document.querySelector('#pie-chart')
-  new Chart(pie_chart, {
+  const pieChart = document.querySelector('#pie-chart')
+  new Chart(pieChart, {
     type: 'doughnut',
     data: {
-      labels: df_label_cnt_topic,
+      labels: df_label_age_band,
       datasets: [{
         label: 'phần trăm',
-        data: df_cnt_topic,
+        data: df_age_band,
         backgroundColor: bg_1,
         borderColor: bg_2,
         borderWidth: 1,
@@ -131,8 +132,8 @@
   });
 
 
-  const line_chart = document.getElementById('line-chart');
-  new Chart(line_chart, {
+  const mixedChart2 = document.getElementById('mix-chart-2');
+  new Chart(mixedChart2, {
     data: {
       labels: df_time,
       datasets: [{
@@ -161,8 +162,8 @@
   });
   
 
-  const polar_chart = document.querySelector('#polar-chart')
-  new Chart(polar_chart, {
+  const polarChart = document.querySelector('#polar-chart')
+  new Chart(polarChart, {
     type: 'polarArea',
     data: {
       labels: df_label_enjoy,
@@ -197,8 +198,8 @@
     }
   });
 
-  const pie_chart_2 = document.querySelector('#pie-chart-2')
-  new Chart(pie_chart_2, {
+  const pieChart2 = document.querySelector('#pie-chart-2')
+  new Chart(pieChart2, {
     type: 'pie',
     data: {
       labels: df_label_gender,
@@ -233,17 +234,24 @@
     }
   });
 
-  const bar_chart_2 = document.getElementById('bar-chart-2');
-  new Chart(bar_chart_2, {
-    type: 'bar',
+  const mixedChart = document.querySelector('#mix-chart')
+  new Chart(mixedChart, {
     data: {
-      labels: df_label_age_band,
+      labels: df_label_topic,
       datasets: [{
-        label: 'người dùng',
-        data: df_age_band,
+        type: 'line',
+        label: 'ý kiến',
+        data: df_cmt,
         backgroundColor: bg_1,
         borderColor: bg_2,
-        borderWidth: 1,
+        borderWidth: 4,
+      }, {
+      type: 'bar',
+      label: 'bài đăng',
+      data: df_cnt_post,
+      backgroundColor: bg_1,
+      borderColor: bg_2,
+      borderWidth: 1,
       }]
     },
     options: {

@@ -1,0 +1,78 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/client/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/client/weather.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <span class="mb-2 mt-5">Tin tức 24h</span>
+      <h2>Thời tiết <span class="name-location"></span></h2>
+      <hr>
+      <div class="mb-4">
+        <form class="form-search">
+          <input type="text" name="q" id="location-input" placeholder="Nhập tỉnh, thành phố">
+          <button type="button"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      <div class="no-result">
+        Nhập thông tin để xem dự báo thời tiết 4 ngày tới
+      </div>
+      <div class="big-result">
+        <div class="main-result">
+          <div class="main-result-body">
+            <div class="weather-now">
+              <img src="" class="weather-now-img">
+              <div class="weather-now-info"></div>
+            </div>
+            <div>
+              <h2 class="weather-now-condition"></h2>
+              <div class="weather-now-feel">
+                <h6>Cảm giác như:</h6>
+                <h6 class="feel-txt"></h6>
+              </div>
+            </div>
+          </div>
+          <div class="condition-weather">
+            <div>
+              <div class="condition-item">
+                <h5>Cao:</h5>
+                <h5 class="max-temp-txt"></h5>
+              </div>
+              <div class="condition-item">
+                <h5>Thấp:</h5>
+                <h5 class="min-temp-txt"></h5>
+              </div>
+            </div>
+            <div>
+              <div class="condition-item">
+                <h5>Độ ẩm:</h5>
+                <h5 class="hudimity-txt"></h5>
+              </div>
+              <div class="condition-item">
+                <h5>Sức gió:</h5>
+                <h5 class="wind-txt"></h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="forecast-weather">
+        </div>
+      </div>
+      <div class="notfound-result">
+        Không tìm thấy thông tin về địa điểm này
+      </div>
+      {% include '../partials/viewed_posts.html' %}
+    </div>
+  </div>
+</div>
+<br>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/client/weather.js' %}"></script>
+{% endblock %}

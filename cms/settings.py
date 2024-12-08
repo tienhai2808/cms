@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'myapp.context_processors.topics',
                 'myapp.context_processors.recently_viewed',
+                'myapp.context_processors.notification',
+                'myapp.context_processors.api_key',
                 'processing.context_processors.len_list',
             ],
         },

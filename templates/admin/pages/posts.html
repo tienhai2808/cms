@@ -59,7 +59,7 @@
         <td>
           <a class="text-dark" style="text-decoration: none !important;" href="/posts/{{ post.slug }}/">{{ post.title|truncatechars:60 }}</a>
         </td>
-        <td>{{ post.views }}</td>
+        <td>{{ post.view }}</td>
         <td>{{ post.post_enjoys.count }}</td>
         <td>{{ post.count_comment }}</td>
         {% if not post.start_time %}

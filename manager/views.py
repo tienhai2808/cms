@@ -17,25 +17,24 @@ def pm_home(request):
   title = 'Dashboard'
   topics = Post.objects.filter(
     status='Đã đăng').values(
-      'section__topic__title').annotate(total_views=Sum('views')).order_by('total_views')
+      'section__topic__title').annotate(
+        total_views=Sum('view'), 
+        count_post=Count('id'), 
+        total_cmt=Count('post_comments', filter=Q(post_comments__status='Đã duyệt'))
+        ).order_by('count_post')
   df_label_topic = [topic['section__topic__title'] for topic in topics]
-  df_topic = [topic['total_views'] for topic in topics]
-  
-  cnt_topic = Post.objects.filter(
-    status='Đã đăng').values(
-      'section__topic__title').annotate(count_post=Count('id')).order_by('count_post')
-  df_label_cnt_topic = [topic['section__topic__title'] for topic in cnt_topic]
-  df_cnt_topic = [topic['count_post'] for topic in cnt_topic]
+  df_view = [topic['total_views'] for topic in topics]
+  df_cnt_post = [topic['count_post'] for topic in topics]
+  df_cmt = [topic['total_cmt'] for topic in topics]
   
   enjoys = Enjoy.objects.values('post__section__topic__title').annotate(total_enjoys=Count('id')).order_by('total_enjoys')
   df_label_enjoy = [enjoy['post__section__topic__title'] for enjoy in enjoys]
   df_enjoy = [enjoy['total_enjoys'] for enjoy in enjoys]
-  
+
   users = User.objects.values('profile__age_band').annotate(total_age_bands = Count('id')).order_by('total_age_bands')
   df_label_age_band = [user['profile__age_band'] for user in users]
   df_age_band = [user['total_age_bands'] for user in users]
 
-  
   users = User.objects.values('profile__gender').annotate(total_genders = Count('id')).order_by('total_genders')
   df_label_gender = [user['profile__gender'] for user in users]
   df_gender = [user['total_genders'] for user in users]
@@ -44,7 +43,8 @@ def pm_home(request):
   first_post_date = Post.objects.filter(
     status='Đã đăng').aggregate(
       Min('posted_at'))['posted_at__min'].date() if Post.objects.exists() else today
-  first_user_date = User.objects.aggregate(Min('date_joined'))['date_joined__min'].date() if User.objects.exists() else today
+  first_user_date = User.objects.aggregate(
+    Min('date_joined'))['date_joined__min'].date() if User.objects.exists() else today
   start_date = min(first_post_date, first_user_date)
   all_dates = generate_date_range(start_date, today)
   daily_posts = Post.objects.filter(
@@ -64,10 +64,10 @@ def pm_home(request):
       df_post.append(daily_posts_dict.get(date, 0))
       df_user.append(daily_users_dict.get(date, 0))
   context = {'title': title, 
-              'df_topic':df_topic, 
               'df_label_topic': df_label_topic, 
-              'df_cnt_topic': df_cnt_topic,
-              'df_label_cnt_topic': df_label_cnt_topic,
+              'df_cnt_post': df_cnt_post,
+              'df_view': df_view,
+              'df_cmt': df_cmt,
               'df_time': df_time, 
               'df_post': df_post, 
               'df_user': df_user, 

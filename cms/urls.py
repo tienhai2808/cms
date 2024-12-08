@@ -25,4 +25,4 @@ urlpatterns = [
     path('manager/', include('manager.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('', include('myapp.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) if settings.DEBUG else [] 

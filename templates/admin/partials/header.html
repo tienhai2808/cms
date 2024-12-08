@@ -1,10 +1,11 @@
+{% load static %}
 <div class="w3-teal d-flex">
   <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
   <div class="container-fluid d-flex justify-content-end gap-4" style="align-items: center;">
     <a style="text-decoration: none; color: white; font-size: 20px;" href="/processing/"><i class="fa-solid fa-spinner pe-2"></i>CMS</a>
     <a href="/" class="me-2">
       <img 
-        src="https://s1.vnecdn.net/vnexpress/restruct/i/v942/v2_2019/pc/graphics/logo.svg" 
+        src="{% static 'svg/logo.svg' %}" 
         alt="Báo VnExpress - Báo tiếng Việt nhiều người xem nhất"
       />
     </a>

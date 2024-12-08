@@ -192,6 +192,7 @@ button {
   width: 20px;
   height: 20px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .bot-header {
@@ -708,4 +709,64 @@ hr {
   background-color: #9f224e !important;
   color: white;
   border: .1px solid #9f224e !important;
+}
+
+.par-noti {
+  position: relative;
+}
+
+.div-noti {
+  position: absolute;
+  width: 320px;
+  height: 400px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  right: -240%;
+  top: 180%;
+  border-radius: 5px;
+  padding: 5px 20px;
+}
+
+.heading-noti {
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: .2px solid rgb(214, 211, 211);
+}
+
+.body-noti {
+  overflow-y: scroll;
+  height: 86%;
+}
+
+.body-noti::-webkit-scrollbar {
+  width: 4px; 
+}
+
+.body-noti::-webkit-scrollbar-thumb {
+  background-color: #b5b5b5; 
+  border-radius: 10px; 
+}
+
+.post-noti {
+  padding-bottom: 10px;
+}
+
+.post-noti-head {
+  font-size: 13px !important;
+  display: flex;
+  justify-content: space-between;
+  height: 25px;
+  width: 276px;
+}
+
+.post-noti-body {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+
+.header-weather-img {
+  width: 16px;
+  height: 16px;
 }

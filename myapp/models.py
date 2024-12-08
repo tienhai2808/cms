@@ -38,6 +38,7 @@ class Profile(models.Model):
   take_charge = models.ForeignKey(Topic, on_delete=models.SET_NULL, blank=True, null=True)
   about = models.CharField(max_length=1000, blank=True, null=True)
   recently_viewed = models.JSONField(default=list, blank=True, null=True) 
+  notification = models.JSONField(default=list, blank=True, null=True)
   
   @property
   def age(self):
@@ -81,7 +82,7 @@ class Post(models.Model):
   body = CKEditor5Field('Text', config_name='extends')
   slug = models.SlugField(max_length=500)
   section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='posts')
-  views = models.IntegerField(default=0)
+  view = models.IntegerField(default=0)
   status = models.CharField(max_length=20, choices=[('Chờ gửi', 'Chờ gửi'), ('Chờ duyệt', 'Chờ duyệt'),('Từ chối', 'Từ chối'), ('Chờ sửa', 'Chờ sửa'), ('Chờ đăng', 'Chờ đăng'), ('Đã đăng', 'Đã đăng')], default='Chờ gửi')
   start_time = models.TimeField(blank=True, null=True)
   end_time = models.TimeField(blank=True, null=True)

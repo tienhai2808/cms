@@ -1,0 +1,31 @@
+{% load custom_filters %}
+<div class="div-noti d-none">
+  <div class="heading-noti">
+    <i class="far fa-bell icon-noti me-2"></i>Thông báo
+  </div>
+  <div class="body-noti">
+    {% if request.user.is_authenticated %}
+    {% if notificated_posts  %}
+    {% for post in notificated_posts %}
+    <a class="post-noti" href="/posts/{{ post.slug }}/">
+      <div class="post-noti-head">
+        <div>{{ post.section.topic.title }}</div>
+        <div>{{ post.posted_at|custom_time_display }}</div>
+      </div>
+      <div class="post-noti-body">
+        {{ post.title }}
+      </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <br><br>
+    <div class="text-center">Chưa có thông báo mới</div>
+    {% endif %}
+    {% else %}
+    <br><br>
+    <div class="text-center">
+      <a href="/login/">Đăng nhập</a> để nhận thông báo
+    </div>
+    {% endif %}
+  </div>
+</div>

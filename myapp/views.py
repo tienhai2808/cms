@@ -5,12 +5,13 @@ from .forms import *
 from .models import *
 from .services import RecentlyViewed
 from .utils import viewed_auth
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.utils.text import slugify
 from django.http import JsonResponse
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import PasswordChangeForm
+
 time_now = datetime.now().time()
 
 # Create your views here.
@@ -71,7 +72,24 @@ def account(request):
 def index(request):
   title = 'Báo VnExpress - Báo tiếng Việt nhiều người xem nhất'
   posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
-                              status='Đã đăng').order_by('-posted_at')[:30]
+                              status='Đã đăng')
+  sort_by = request.GET.get('sort_by', '')
+  if sort_by:
+    if sort_by == 'view':
+      posts = posts.order_by('-view')
+      h2 = 'Xem nhiều'
+    elif sort_by == 'save':
+      posts = posts.annotate(enjoy_count=Count('post_enjoys')).order_by('-enjoy_count')
+      h2 = 'Quan tâm nhiều'
+    else:
+      posts = posts.annotate(
+        approved_comments=Count('post_comments', filter=Q(post_comments__status='Đã duyệt'))
+        ).order_by('-approved_comments')
+      h2 = 'Bình luận nhiều'
+  else:
+    posts=posts.order_by('-posted_at')
+    h2 = 'Mới nhất'
+  posts = posts[:30]
   paginator = Paginator(posts, 8)
   page_number = request.GET.get('page', '')
   try:
@@ -80,15 +98,34 @@ def index(request):
     page_obj = paginator.page(1)
   except EmptyPage:
     page_obj = paginator.page(paginator.num_pages)
-  context = {'title': title, 'page_obj': page_obj}
+  query_params = request.GET.copy()
+  if 'page' in query_params:
+    query_params.pop('page')
+  context = {'title': title, 
+             'page_obj': page_obj,
+             'sort_by': sort_by,
+             'h2': h2,
+             'query_params': query_params.urlencode()}
   return render(request, 'client/pages/home.html', context)
 
 def topic(request, slug_topic):
   try:
     topic = Topic.objects.get(slug=slug_topic)
     posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now),
-                                status='Đã đăng', section__topic=topic).order_by('-posted_at')
+                                status='Đã đăng', section__topic=topic)
     title = topic.title
+    sort_by = request.GET.get('sort_by', '')
+    if sort_by:
+      if sort_by == 'view':
+        posts = posts.order_by('-view')
+      elif sort_by == 'save':
+        posts = posts.annotate(enjoy_count=Count('post_enjoys')).order_by('-enjoy_count')
+      else:
+        posts = posts.annotate(
+          approved_comments=Count('post_comments', filter=Q(post_comments__status='Đã duyệt'))
+          ).order_by('-approved_comments')
+    else:
+      posts=posts.order_by('-posted_at')
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
     try:
@@ -97,8 +134,13 @@ def topic(request, slug_topic):
       page_obj = paginator.page(1)
     except EmptyPage:
       page_obj = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+      query_params.pop('page')
     context = {'title': title,
-               'page_obj': page_obj}
+               'page_obj': page_obj,
+               'sort_by': sort_by,
+               'query_params': query_params.urlencode()}
     return render(request, 'client/pages/topic.html', context)
   except Topic.DoesNotExist:
     return redirect('/')
@@ -107,8 +149,20 @@ def section(request, slug_topic, slug_section):
   try:
     section = Section.objects.get(slug=slug_section, topic__slug=slug_topic)
     posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
-                                status='Đã đăng', section=section).order_by('-posted_at')
+                                status='Đã đăng', section=section)
     title = section.title
+    sort_by = request.GET.get('sort_by', '')
+    if sort_by:
+      if sort_by == 'view':
+        posts = posts.order_by('-view')
+      elif sort_by == 'save':
+        posts = posts.annotate(enjoy_count=Count('post_enjoys')).order_by('-enjoy_count')
+      else:
+        posts = posts.annotate(
+          approved_comments=Count('post_comments', filter=Q(post_comments__status='Đã duyệt'))
+          ).order_by('-approved_comments')
+    else:
+      posts=posts.order_by('-posted_at')
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page', '')
     try:
@@ -117,8 +171,13 @@ def section(request, slug_topic, slug_section):
       page_obj = paginator.page(1)
     except EmptyPage:
       page_obj = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+      query_params.pop('page')
     context = {'title': title,
-               'page_obj': page_obj}
+               'page_obj': page_obj,
+               'sort_by': sort_by,
+               'query_params': query_params.urlencode()}
     return render(request, 'client/pages/section.html', context)
   except Section.DoesNotExist:
     return redirect('/')
@@ -128,7 +187,7 @@ def post_detail(request, slug):
     post = Post.objects.get(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
                             status='Đã đăng', slug=slug)
     title = post.title
-    post.views += 1
+    post.view += 1
     post.save()
     comments = Comment.objects.filter(post=post, status='Đã duyệt')
     co_topic = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
@@ -218,3 +277,8 @@ def search(request):
     posts = None
   context = {'title': title, 'keyword': keyword, 'posts': posts}
   return render(request, 'client/pages/search.html', context)
+
+def weather(request):
+  title = 'Thời tiết hiện tại và dự báo 4 ngày tới'
+  context = {'title': title}
+  return render(request, 'client/pages/weather.html', context)

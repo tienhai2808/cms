@@ -20,7 +20,12 @@
         </div>
         <div class="info-body">
           <p style="text-align: center;">Email: <strong>{{ user.email }}</strong></p>
+          {% if not user.profile.gender == 'Ẩn'  %}
           <p style="text-align: center;">Giới tính: <strong>{{ user.profile.gender }}</strong></p>
+          {% endif %}
+          {% if user.profile.phone %}
+          <p style="text-align: center;">Số điện thoại: <strong>{{ user.profile.phone }}</strong></p>
+          {% endif %}
           {% if user.profile.dob %}
           <p style="text-align: center;">Ngày sinh: <strong>{{ user.profile.dob|date:"d/m/Y" }}</strong></p>
           {% endif %}

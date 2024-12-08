@@ -18,3 +18,8 @@
   color: white;
   border: none;
 }
+
+.border-dashborad {
+  border: 2px solid #009688 ;
+  padding: 20px !important;
+}
