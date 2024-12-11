@@ -33,7 +33,7 @@ def register(request):
         user = auth.authenticate(username=username, password=password) 
         auth.login(request, user) 
         viewed_auth(request, user)
-        messages.success(request, 'Chào mừng bạn đến với VnExpress') 
+        messages.success(request, 'Chào mừng bạn đến với Nhom14LTW') 
         return redirect('home')
       else:
         messages.error(request, 'Có Vấn Đề Xảy Ra, Vui Lòng Thử Lại')
@@ -72,7 +72,7 @@ def account(request):
     return redirect('login')
 
 def index(request):
-  title = 'Báo VnExpress - Báo tiếng Việt nhiều người xem nhất'
+  title = 'Báo Nhom14LTW - Báo tiếng Việt nhiều người xem nhất'
   posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
                               status='Đã đăng')
   sort_by = request.GET.get('sort_by', '')
