@@ -54,7 +54,11 @@
       {% for user in page_obj %}
       <tr>
         <td><input checkbox value="{{ user.id }}" type="checkbox"></td>
-        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>
+          <a href="/manager/employees/{{ user.id }}/" class="text-dark" style="text-decoration: none !important;">
+            {{ user.first_name }} {{ user.last_name }}
+          </a>
+        </td>
         <td>{{ user.email }}</td>
         <td>{{ user.profile.phone }}</td>
         <td>{{ user.groups.first.name }}</td>

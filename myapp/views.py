@@ -4,14 +4,16 @@ from django.contrib import auth, messages
 from .forms import *
 from .models import *
 from .services import RecentlyViewed
-from .utils import viewed_auth
+from .utils import *
 from django.db.models import Q, Count
 from django.utils.text import slugify
 from django.http import JsonResponse
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import PasswordChangeForm
-
+from bs4 import BeautifulSoup
+from gtts import gTTS
+import os
 time_now = datetime.now().time()
 
 # Create your views here.
@@ -60,7 +62,7 @@ def logout(request):
   return redirect('home')
 
 def account(request):
-  if request.user.is_authenticated:
+  if request.user.is_authenticated:    
     user = User.objects.get(id=request.user.id)
     title = f'{user.first_name} {user.last_name}'
     context = {'title': title,
@@ -89,8 +91,8 @@ def index(request):
   else:
     posts=posts.order_by('-posted_at')
     h2 = 'Mới nhất'
-  posts = posts[:30]
-  paginator = Paginator(posts, 8)
+  posts = posts[:40]
+  paginator = Paginator(posts, 6)
   page_number = request.GET.get('page', '')
   try:
     page_obj = paginator.get_page(page_number)
@@ -211,6 +213,20 @@ def post_detail(request, slug):
             return JsonResponse({'status': 'removed'})
           else:
             return JsonResponse({'status': 'added'}) 
+        tts = request.POST.get('tts', '')
+        if tts:
+          audio_file = f'static/audio/post_{post.id}.mp3'
+          if os.path.exists(audio_file):
+            return JsonResponse({'audio_url': f'/{audio_file}'})
+          soup = BeautifulSoup(post.body, "html.parser")
+          body_text = soup.get_text(separator=' ')
+          plain_text = f'{post.title}. {body_text}'
+          try:
+            after_tts = gTTS(plain_text, lang='vi')
+            after_tts.save(f'static/audio/post_{post.id}.mp3')
+            return JsonResponse({'audio_url': f'/static/audio/post_{post.id}.mp3'})
+          except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     context = {'title': title, 'post': post, 'comments': comments, 'co_topic': co_topic}
     return render(request, 'client/pages/post_detail.html', context)
   except Post.DoesNotExist:
@@ -224,7 +240,12 @@ def update_profile(request):
     if request.POST:
       if form_u.is_valid() and form_p.is_valid():
         form_u.save()
-        form_p.save()
+        profile = form_p.save(False)
+        avatar = form_p.cleaned_data.get('avt')
+        if avatar and not hasattr(avatar, 'path'): 
+          image_file = resize_width(avatar)
+          profile.avt.save(avatar.name, image_file)
+        profile.save()
         messages.success(request, 'Chỉnh sửa hồ sơ thành công')
         return redirect('account')
     context = {'title': title,

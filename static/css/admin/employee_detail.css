@@ -1,0 +1,52 @@
+.div-avt {
+  border: 3px solid #009688;
+  border-radius: 5px;
+  width: 300px;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+}
+
+.div-avt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heading-info div, .body-info div {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.div-take-charge {
+  background-color: #00b2a0;
+  position: fixed;
+  width: 50vw;
+  height: 45vh;
+  top:25%;
+  right: 25%;
+}
+
+.fa-circle-xmark {
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}
+
+.text-note {
+  text-align: center;
+  background-color: #cecece;
+  margin-left: 12px;
+  margin-right: 12px;
+  border-radius: 5px;
+}
+
+.form-take-charge select {
+  height: 140px !important;
+  margin-bottom: 15px;
+}
+
+.fa-pen-to-square {
+  color: #009688;
+  cursor: pointer;
+  margin-left: 30px;
+}

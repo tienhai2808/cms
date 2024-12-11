@@ -28,12 +28,13 @@
     {% block main %}
     {% endblock %}
   </main>
-  <!-- Nội dung js của page  -->
-   {% block js %}
-   {% endblock %}
-  
+
   <!-- Lấy element footer từ partials bỏ vào  -->
   {% include '../partials/footer.html' %}
+
+  <!-- Nội dung js của page  -->
+  {% block js %}
+  {% endblock %}
 
   <!-- Link script của Bootstrap5.3.3  -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

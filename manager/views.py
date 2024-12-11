@@ -208,6 +208,35 @@ def pm_emp(request):
   return render(request, 'admin/pages/employees.html', content)
 
 @user_passes_test(is_manager, login_url='/', redirect_field_name=None)
+def pm_emp_detail(request, id_emp):
+  try:
+    emp = User.objects.exclude(Q(groups__name='Client')|Q(groups__name='Approver')).exclude(username=request.user.username).get(id=id_emp)
+    title = f"Nhân viên {emp.first_name} {emp.last_name}"
+    topics = Topic.objects.all()
+    if request.POST:
+      action = request.POST.get('action')
+      take_charge = request.POST.get('take_charge')
+      if action == 'delete':
+        emp.delete()
+        messages.success(request, 'Đã xóa nhân viên thành công')
+        return redirect('pm-employee')
+      else:
+        topic = None if not take_charge else Topic.objects.get(title=take_charge) 
+        group = Group.objects.get(name='Editor' if 'to_editor' in action else 'Contributor')
+        emp.groups.set([group])
+        emp.profile.take_charge = topic
+        emp.profile.save()
+        emp.save()
+        messages.success(request, 'Sửa vai trò nhân viên thành công')
+        return redirect('pm-employee-detail', id_emp)
+    context = {'emp': emp, 
+               'title': title,
+               'topics': topics}
+    return render(request, 'admin/pages/employee_detail.html', context)
+  except User.DoesNotExist:
+    return redirect('pm-employee')
+
+@user_passes_test(is_manager, login_url='/', redirect_field_name=None)
 def pm_cmt(request):
   title = 'Ý kiến người dùng'
   comments = Comment.objects.filter(status='Chờ duyệt').order_by('-created_at')

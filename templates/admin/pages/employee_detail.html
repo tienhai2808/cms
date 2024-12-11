@@ -1,0 +1,78 @@
+{% extends '../layouts/default.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin/employee_detail.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="container d-flex justify-content-center mt-5">
+  <div class="row w-100">
+    <div class="col-3">
+      <div class="w-100 d-flex justify-content-center">
+        <div class="div-avt">
+          <img src="{{ emp.profile.avt.url }}" alt="Ảnh đại diện">
+        </div>
+      </div>
+      <h3 class="text-center mt-4">
+        {{ emp.first_name }} {{ emp.last_name }}
+      </h3>
+    </div>
+    <div class="col-9 ps-4">
+      <h2 class="text-center mb-3">Thông tin nhân viên</h2>
+      <div class="div-info row position-relative">
+        <div class="col-4 heading-info">
+          <div><strong>Email:</strong></div>
+          <div><strong>Số điện thoại:</strong></div>
+          <div><strong>Giới tính:</strong></div>
+          <div><strong>Ngày sinh:</strong></div>
+          <div><strong>Vai trò:</strong></div>
+          <div><strong>Ngày vào làm:</strong></div>
+          {% if emp.profile.take_charge %}
+          <div><strong>Chủ đề đảm nhiệm:</strong></div>
+          {% endif %}
+          {% if emp.groups.first.name == 'Contributor' %}
+          <div><strong>Số lượng bài viết:</strong></div>
+          {% else %}
+          <div><strong>Số lượng bài sửa:</strong></div>
+          {% endif %}
+          <div><strong>Giới thiệu:</strong></div>
+        </div>
+        <div class="col-8 body-info">
+          <div>{{ emp.email }}</div>
+          <div>{{ emp.profile.phone }}</div>
+          <div>{{ emp.profile.gender }}</div>
+          <div>{{ emp.profile.dob|date }}</div>
+          <div data-role>{{ emp.groups.first.name }}<i class="fa-regular fa-pen-to-square btn-role"></i></div>
+          <div>{{ emp.date_joined|date }}</div>
+          {% if emp.profile.take_charge %}
+          <div>{{ emp.profile.take_charge }}<i class="fa-regular fa-pen-to-square btn-take-charge"></i></div>
+          {% endif %}
+          {% if emp.groups.first.name == 'Contributor' %}
+          <div>{{ emp.posts_created.count }}</div>
+          {% else %}
+          <div>{{ emp.posts_updated.count }}</div>
+          {% endif %}
+          <div>{{ emp.profile.about }}</div>
+        </div>
+      </div>
+      <br><br>
+      <div class="d-flex justify-content-center pe-4">
+        <button class="btn btn-dark btn-delete">
+          Xóa nhân viên
+        </button>
+      </div>
+      <form method="post" class="form-emp">
+        {% csrf_token %}
+        <input hidden type="text" name="action">
+        <input hidden type="text" name="take_charge">
+      </form>
+      {% include '../partials/form_take_charge.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/admin/employee_detail.js' %}"></script>
+{% endblock %}

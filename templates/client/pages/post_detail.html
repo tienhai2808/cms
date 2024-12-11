@@ -21,7 +21,7 @@
       <div class="d-flex justify-content-center mb-4">
         <img class="post-img" src="{{ post.image.url }}" alt="Ảnh bài viết">
       </div>
-      <div class="mb-3" style="font-size: 20px;">{{ post.body|safe }}</div>
+      <div class="mb-3 post-content">{{ post.body|safe }}</div>
       <div class="d-flex justify-content-end">
         <strong style="font-size: 18px;">{{ post.created_by.first_name }} {{post.created_by.last_name }}</strong>
       </div>
@@ -87,6 +87,7 @@
     </div>
   </div>
 </div>
+{% include '../partials/service.html' %}
 
 <br><br>
 {% endblock %}

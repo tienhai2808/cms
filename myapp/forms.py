@@ -13,7 +13,7 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
   class Meta:
     model = Profile
-    exclude = ['user', 'age_band', 'take_charge', 'recently_viewed']
+    exclude = ['user', 'age_band', 'take_charge', 'recently_viewed', 'notification']
     widgets = {'dob': forms.DateInput(attrs={'type': 'date'}),}
     
 

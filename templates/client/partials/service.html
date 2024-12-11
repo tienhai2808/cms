@@ -1,0 +1,56 @@
+<div id="post-audio" class="d-none">
+  <audio id="tts-audio" controls></audio>
+  <span class="material-symbols-outlined" id="close-audio">
+    close
+  </span>
+</div>
+<div id="loading" class="loader">
+  <div class="scanner">
+    <span>Loading...</span>
+  </div>
+</div>
+<div class="div-font-size d-none">
+  <div class="header-fs">
+    <div class="title-header-fs">Chọn cỡ chữ:</div>
+    <div style="cursor: pointer;">
+      <span class="material-symbols-outlined" id="close-font-size">
+        close
+      </span>
+    </div>
+  </div>
+  <div class="body-fs">
+    <div class="fs-smaller">
+      <span class="material-symbols-outlined me-2">
+        remove
+      </span>
+      <span>
+        Nhỏ hơn
+      </span>
+    </div>
+    <div class="fs-bigger">
+      <span class="material-symbols-outlined me-2">
+        add
+      </span>
+      <span>
+        Lớn hơn
+      </span>
+    </div>
+    <div class="reload-fs">
+      <span class="material-symbols-outlined">
+        replay
+      </span>
+    </div>
+  </div>
+</div>
+<div class="post-service">
+  <div class="btn-font-size" title="Đổi cỡ chữ">
+    <span class="material-symbols-outlined">
+      format_size
+    </span>
+  </div>
+  <div class="btn-tts" title="Nghe audio" data-post-slug="{{ post.slug }}">
+    <span class="material-symbols-outlined">
+      text_to_speech
+    </span>
+  </div>
+</div>

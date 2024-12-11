@@ -1,3 +1,7 @@
+.post-content {
+  font-size: 20px;
+}
+
 figure {
   display: flex;
   justify-content: center;
@@ -46,4 +50,133 @@ figure img {
 .co-section {
   color: rgb(183, 179, 179);
   text-decoration: none;
+}
+
+.post-service {
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 5px 10px 5px;
+  margin: 0 50px;
+  position: fixed;
+  top: 87%;
+  left: 83.4%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.post-service div {
+  cursor: pointer;
+}
+
+.post-service div span {
+  font-size: 25px;
+  color: #9f224e;
+}
+
+#post-audio {
+  position: fixed;
+  top: 80%;
+  left: 80%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 5px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+
+#post-audio audio {
+  width: 250px;
+  height: 30px;
+}
+
+#post-audio span {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.loader {
+  position: fixed;
+  top: 83%;
+  left: 87%; 
+  display: none;
+}
+
+.scanner span {
+  color: transparent;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner span::before {
+  content: "Loading...";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  border-right: 4px solid #9f224e;
+  overflow: hidden;
+  color: #9f224e;
+  animation: load91371 2s linear infinite;
+}
+
+@keyframes load91371 {
+  0%, 10%, 100% {
+    width: 0;
+  }
+
+  10%,20%,30%,40%,50%,60%,70%,80%,90%,100% {
+    border-right-color: transparent;
+  }
+
+  11%,21%,31%,41%,51%,61%,71%,81%,91% {
+    border-right-color: #9f224e;
+  }
+
+  60%, 80% {
+    width: 100%;
+  }
+}
+
+.div-font-size {
+  position: fixed;
+  top: 75%;
+  left: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: 285px;
+  padding: 5px 10px;
+}
+
+.header-fs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.body-fs {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 2px;
+}
+
+.body-fs div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 6px;
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+
+.body-fs div:hover {
+  background-color: #d9d9d9;
+}
+
+.body-fs div .material-symbols-outlined {
+  font-size: 18px;
 }

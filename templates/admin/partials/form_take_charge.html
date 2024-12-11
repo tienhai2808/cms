@@ -1,0 +1,17 @@
+<div class="div-take-charge p-4 d-none">
+  <div class="container">
+    <div class="d-flex justify-content-end"><i class="fa-regular fa-circle-xmark"></i></div>
+    <h3 class="text-light" style="text-align: center;">Chọn chủ đề đảm nhiệm</h3>
+    <p class="text-note"></p>
+    <form class="form-take-charge container" method="POST">
+      {% csrf_token %}
+      <select class="form-select" size="{{ topics.count }}">
+        <option value="" selected>Chọn 1 chủ đề</option>
+        {% for topic in topics %}
+        <option value="{{ topic.title }}">{{ topic.title }}</option>
+        {% endfor %}
+      </select>
+      <center><button btn-submit type="button" class="btn btn-dark">Xác nhận</button></center>
+    </form>
+  </div>
+</div>
