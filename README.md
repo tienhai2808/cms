@@ -12,16 +12,16 @@
   `Huỳnh Thị Thúy Vy`
 
 ## Giới thiệu
-  **Đây là dự án cuối kỳ trong khuôn khổ môn học `Lập Trình Web` do `Tiến sĩ Đặng Trung Thành` giảng dạy ở kỳ 1 năm học 2024-2025.**
+  - **Đây là dự án cuối kỳ trong khuôn khổ môn học `Lập Trình Web` do `Tiến sĩ Đặng Trung Thành` giảng dạy ở kỳ 1 năm học 2024-2025.**
 
-  **Trong dự án này, nhóm xây dựng một Website mô phỏng quy trình CMS của trang báo điện tử lớn nhất Việt Nam `VNExpress`**. 
+  - **Trong dự án này, nhóm xây dựng một Website mô phỏng quy trình CMS của trang báo điện tử lớn nhất Việt Nam `VNExpress`**. 
 
-  **Dự án sử dụng thư viện Django của Python để triển khai và sử dụng phương pháp triển khai Server-Side Rendering bám sát với kiến thức học tập ở lớp cũng như giáo trình.**
+  - **Dự án sử dụng thư viện Django của Python để triển khai và sử dụng phương pháp triển khai Server-Side Rendering bám sát với kiến thức học tập ở lớp cũng như giáo trình.**
 
 ## Mục tiêu
-  **Hiểu rõ cách thức hoạt động của một Website, nắm chắc kiến thức cơ bản của ngôn ngữ `Python`, `JavaScript`, `HTML` và `CSS`**
+  - **Hiểu rõ cách thức hoạt động của một Website, nắm chắc kiến thức cơ bản của ngôn ngữ `Python`, `JavaScript`, `HTML` và `CSS`**
 
-  **Tạo tiền đề cho việc phát triển của những bạn học trái ngành, học ngách,...**
+  - **Tạo tiền đề cho việc phát triển của những bạn học trái ngành, học ngách,...**
 
 ## Triển khai cấu trúc thư mục
   - *Folder `cms` là app gốc của dự án*
