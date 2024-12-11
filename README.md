@@ -25,12 +25,21 @@
 
 ## Triển khai cấu trúc thư mục
   - *Folder `cms` là app gốc của dự án*
-  - *Folder `myapp` là app chứa các file liên quan tới đối tượng `Client` của Website*****************
+
+  - *Folder `myapp` là app chứa các file liên quan tới đối tượng `Client` của Website*
+
   - *Folder `processing` là app chứa các file liên quan tới việc xử lý bài viết, trung tâm CMS, danh cho đối tượng `Contributor`, `Editor`, `Approver`*
+
   - *Folder `manager` là app chứa các file liên quan tới thống kê Website dành cho đối tượng `Approver`*
+
   - *Folder `static` là folder chứa các file tĩnh bao gồm hình ảnh, audio, JavaScript, CSS sử dụng cho các template*
+
   - *Folder `templates` là folder chứa các file HTML render ra Website*
+
   - *Folder `media` là folder chứa các file hình ảnh, nội dung,... khi người dùng upload lên Website*
+
   - *File `.gitignore` là file chứa tên các file, folde để khi khởi tạo Git sẻ bỏ qua*
+
   - *File `.env` chứa các biến có độ bảo mật cao, không muốn cho người xem GitHub thấy và sử dụng*
+  
   - *File `requirements.txt` là file chứa tên và phiên bản của thư viện cần cài đặt để khởi chạy dự án*
