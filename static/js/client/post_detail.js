@@ -77,7 +77,6 @@ btnTTS.addEventListener('click', (e) => {
     },
     success: (res) => {
       postAudio.classList.remove('d-none')
-      console.log(res.audio_url)
       $('#tts-audio').attr('src', res.audio_url)
       $('#tts-audio')[0].play()
     },

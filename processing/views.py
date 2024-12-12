@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
 from .utils import *
+from myapp.utils import resize_width
 
 # Create your views here.  
 @user_passes_test(in_group, login_url='/', redirect_field_name=None)
@@ -189,12 +190,17 @@ def create_draft(request):
   form_cp = ContributorPostForm(request.POST or None, request.FILES or None)
   title = 'Tạo bản thảo'
   if request.POST:
+    print(request.POST)
     send = request.POST.get('send', '')
     if form_cp.is_valid():
       draft = form_cp.save(False)
       draft.created_by = request.user 
       if send:
         draft.status = 'Chờ duyệt'
+      thumbnail = form_cp.cleaned_data.get('image')
+      if thumbnail and thumbnail != 'thumbnails/default.jpg':
+        image_file = resize_width(thumbnail, 538)
+        draft.image.save(thumbnail.name, image_file)
       draft.save()
       messages.success(request, 'Tạo và gửi bản nháp thành công' if send else 'Tạo bản nháp thành công')       
       return redirect('pro-home')
@@ -212,6 +218,10 @@ def update_draft(request, slug):
         draft = form_up.save(False)
         if send:
           draft.status = 'Chờ duyệt'
+        thumbnail = form_up.cleaned_data.get('image')
+        if thumbnail and not hasattr(thumbnail, 'path'):
+          image_file = resize_width(thumbnail, 538)
+          draft.image.save(thumbnail.name, image_file)
         draft.save()
         messages.success(request,'Đã gửi bản nháp cho Tổng biên tập' if send else 'Đã lưu chỉnh sửa bản nháp')
         return redirect('draft-list') if send else redirect('draft-detail', slug=draft.slug)
@@ -238,6 +248,10 @@ def update_post(request, slug):
           post.status = 'Chờ đăng'
         if not post.updated_by:
           post.updated_by = request.user
+        thumbnail = form_up.cleaned_data.get('image')
+        if thumbnail and not hasattr(thumbnail, 'path'):
+          image_file = resize_width(thumbnail, 538)
+          post.image.save(thumbnail.name, image_file)
         post.save() 
         messages.success(request, 'Đã gửi bài viết cho Tổng biên tập' if send else 'Đã lưu chỉnh sửa')
         return redirect('list-edit') if send else redirect('pro-post-detail', slug)

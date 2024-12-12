@@ -243,7 +243,7 @@ def update_profile(request):
         profile = form_p.save(False)
         avatar = form_p.cleaned_data.get('avt')
         if avatar and not hasattr(avatar, 'path'): 
-          image_file = resize_width(avatar)
+          image_file = resize_width(avatar, 300)
           profile.avt.save(avatar.name, image_file)
         profile.save()
         messages.success(request, 'Chỉnh sửa hồ sơ thành công')

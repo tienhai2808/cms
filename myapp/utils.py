@@ -12,10 +12,10 @@ def viewed_auth(request, user):
   request.session['recently_viewed'] = combined_viewed
   request.session.modified = True
   
-def resize_width(img, width=300):
+def resize_width(img, width):
   image = Image.open(img)
   default_width, default_height = image.size
-  new_height = int((width/default_width)*default_height)
+  new_height = round((width/default_width)*default_height)
   resized_image = image.resize((width, new_height), Image.Resampling.LANCZOS)
   image_data = BytesIO()
   resized_image.save(fp=image_data, format=img.image.format)
