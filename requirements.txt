@@ -1,11 +1,10 @@
 #Mở terminal chạy lệnh pip install -r requirements.txt để cài hết thư viện cần dùng 
 
-Django==5.1 #Dòng này có thể xóa
-django-ckeditor-5==0.2.13
-django-import-export==4.2.0
-django-js-asset==2.2.0
-pandas==2.2.2
-python-decouple==3.8
-python-json-logger==2.0.7
-beautifulsoup4==4.12.3
-gTTS==2.5.4
+django #Dòng này có thể xóa
+django-ckeditor-5
+django-import-export
+django-js-asset
+pandas
+python-decouple
+beautifulsoup4
+gTTS

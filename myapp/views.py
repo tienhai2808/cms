@@ -199,34 +199,34 @@ def post_detail(request, slug):
     recently_viewed.add(post.id)
     if request.user.is_authenticated:
       post.is_enjoyed = request.user.user_enjoys.filter(post=post).exists()
-      if request.POST:
-        cmt = request.POST.get('comment', '')
-        if cmt:
-          Comment.objects.create(user=request.user, post=post, content=cmt)
-          messages.info(request, 'Đã gửi ý kiến, vui lòng chờ duyệt')
-          return redirect('post-detail', slug)
-        enjoy_content = request.POST.get('enjoy', '')
-        if enjoy_content:
-          enjoy, created = Enjoy.objects.get_or_create(user=request.user, post=post)
-          if not created:
-            enjoy.delete()
-            return JsonResponse({'status': 'removed'})
-          else:
-            return JsonResponse({'status': 'added'}) 
-        tts = request.POST.get('tts', '')
-        if tts:
-          audio_file = f'static/audio/post_{post.id}.mp3'
-          if os.path.exists(audio_file):
-            return JsonResponse({'audio_url': f'/{audio_file}'})
-          soup = BeautifulSoup(post.body, "html.parser")
-          body_text = soup.get_text(separator=' ')
-          plain_text = f'{post.title}. {body_text}'
-          try:
-            after_tts = gTTS(plain_text, lang='vi')
-            after_tts.save(f'static/audio/post_{post.id}.mp3')
-            return JsonResponse({'audio_url': f'/static/audio/post_{post.id}.mp3'})
-          except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+    if request.POST:
+      cmt = request.POST.get('comment', '')
+      if cmt and request.user.is_authenticated:
+        Comment.objects.create(user=request.user, post=post, content=cmt)
+        messages.info(request, 'Đã gửi ý kiến, vui lòng chờ duyệt')
+        return redirect('post-detail', slug)
+      enjoy_content = request.POST.get('enjoy', '')
+      if enjoy_content and request.user.is_authenticated:
+        enjoy, created = Enjoy.objects.get_or_create(user=request.user, post=post)
+        if not created:
+          enjoy.delete()
+          return JsonResponse({'status': 'removed'})
+        else:
+          return JsonResponse({'status': 'added'}) 
+      tts = request.POST.get('tts', '')
+      if tts:
+        audio_file = f'static/audio/post_{post.id}.mp3'
+        if os.path.exists(audio_file):
+          return JsonResponse({'audio_url': f'/{audio_file}'})
+        soup = BeautifulSoup(post.body, "html.parser")
+        body_text = soup.get_text(separator=' ')
+        plain_text = f'{post.title}. {body_text}'
+        try:
+          after_tts = gTTS(plain_text, lang='vi')
+          after_tts.save(f'static/audio/post_{post.id}.mp3')
+          return JsonResponse({'audio_url': f'/static/audio/post_{post.id}.mp3'})
+        except Exception as e:
+          return JsonResponse({'error': str(e)}, status=500)
     context = {'title': title, 'post': post, 'comments': comments, 'co_topic': co_topic}
     return render(request, 'client/pages/post_detail.html', context)
   except Post.DoesNotExist:
