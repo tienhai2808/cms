@@ -221,7 +221,7 @@ def pm_emp_detail(request, id_emp):
         messages.success(request, 'Đã xóa nhân viên thành công')
         return redirect('pm-employee')
       else:
-        topic = None if not take_charge else Topic.objects.get(title=take_charge) 
+        topic = None if not take_charge else topics.get(title=take_charge) 
         group = Group.objects.get(name='Editor' if 'to_editor' in action else 'Contributor')
         emp.groups.set([group])
         emp.profile.take_charge = topic

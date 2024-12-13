@@ -148,7 +148,9 @@ def draft_detail(request, slug):
 @user_passes_test(is_editor, login_url='/', redirect_field_name=None)
 def post_detail(request, slug):
   try:
-    post = Post.objects.get(slug=slug)
+    post = Post.objects.get(Q(status='Chờ duyệt')|Q(status='Chờ sửa')|Q(status='Chờ đăng'), slug=slug)
+    if request.user.profile.take_charge and request.user.profile.take_charge != post.section.topic:
+      return redirect('pro-home')
     title = f'Bài viết số {post.id}'
     if request.POST:
       pending = request.POST.get('pending', '')
@@ -182,7 +184,7 @@ def post_detail(request, slug):
               'post': post}
     return render(request, 'processing/pages/post_detail.html', context)
   except Post.DoesNotExist:
-    messages.info(request, 'Bài viết đã bị xóa')
+    messages.info(request, 'Không tìm thấy bài viết này')
     return redirect('pro-home')
 
 @user_passes_test(is_contributor, login_url='/', redirect_field_name=None)

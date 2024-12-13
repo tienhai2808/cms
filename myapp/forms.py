@@ -15,6 +15,11 @@ class UpdateProfileForm(forms.ModelForm):
     model = Profile
     exclude = ['user', 'age_band', 'take_charge', 'recently_viewed', 'notification']
     widgets = {'dob': forms.DateInput(attrs={'type': 'date'}),}
+    labels = {'avt': 'Ảnh đại diện', 
+              'phone': 'Số điện thoại',
+              'gender': 'Giới tính',
+              'dob': 'Ngày sinh',
+              'about': 'Mô tả về bạn'}
     
 
 class SignUpForm(UserCreationForm):

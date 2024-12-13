@@ -63,7 +63,7 @@ def logout(request):
 
 def account(request):
   if request.user.is_authenticated:    
-    user = User.objects.get(id=request.user.id)
+    user = request.user
     title = f'{user.first_name} {user.last_name}'
     context = {'title': title,
                'user': user}
