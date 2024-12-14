@@ -76,8 +76,7 @@ def pm_home(request):
               'df_age_band': df_age_band,
               'df_label_age_band': df_label_age_band,
               'df_gender': df_gender,
-              'df_label_gender': df_label_gender
-              }
+              'df_label_gender': df_label_gender}
   return render(request,'admin/pages/home.html', context)
 
 @user_passes_test(is_manager, login_url='/', redirect_field_name=None)
