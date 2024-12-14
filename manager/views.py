@@ -157,7 +157,9 @@ def pm_post(request):
 @user_passes_test(is_manager, login_url='/', redirect_field_name=None)
 def pm_emp(request):
   title = 'Nhân viên'
-  users = User.objects.exclude(Q(groups__name='Client')|Q(groups__name='Approver')).exclude(username=request.user.username).order_by('-date_joined')
+  users = User.objects.exclude(
+    Q(groups__name='Client')|Q(groups__name='Approver')
+    ).exclude(username=request.user.username).order_by('-date_joined')
   if request.POST:
     ids = request.POST.get('emp-ids', '')  
     ids = [int(id.strip()) for id in ids.split(',') if id.strip().isdigit()]
@@ -209,7 +211,9 @@ def pm_emp(request):
 @user_passes_test(is_manager, login_url='/', redirect_field_name=None)
 def pm_emp_detail(request, id_emp):
   try:
-    emp = User.objects.exclude(Q(groups__name='Client')|Q(groups__name='Approver')).exclude(username=request.user.username).get(id=id_emp)
+    emp = User.objects.exclude(
+      Q(groups__name='Client')|Q(groups__name='Approver')
+      ).exclude(username=request.user.username).get(id=id_emp)
     title = f"Nhân viên {emp.first_name} {emp.last_name}"
     topics = Topic.objects.all()
     if request.POST:

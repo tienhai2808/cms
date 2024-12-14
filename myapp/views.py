@@ -38,7 +38,9 @@ def register(request):
       else:
         messages.error(request, 'Có Vấn Đề Xảy Ra, Vui Lòng Thử Lại')
         return redirect('register')
-    return render(request, 'client/pages/register.html', {'title': title ,'form_signup': form_signup})
+    context = {'title': title,
+               'form_signup': form_signup}
+    return render(request, 'client/pages/register.html', context)
 
 def login(request):
   if request.user.is_authenticated:
@@ -55,7 +57,8 @@ def login(request):
     else: 
       messages.error(request,'Tài Khoản hoặc Mật Khẩu không đúng')
       return redirect('login')
-  return render(request, 'client/pages/login.html', {'title': title})
+  context = {'title': title}
+  return render(request, 'client/pages/login.html', context)
 
 def logout(request):
   auth.logout(request)
@@ -73,7 +76,7 @@ def account(request):
 
 def index(request):
   title = 'Báo Nhom14LTW - Báo tiếng Việt nhiều người xem nhất'
-  posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+  posts = Post.objects.filter(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now), 
                               status='Đã đăng')
   sort_by = request.GET.get('sort_by', '')
   if sort_by:
@@ -113,7 +116,7 @@ def index(request):
 def topic(request, slug_topic):
   try:
     topic = Topic.objects.get(slug=slug_topic)
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now),
+    posts = Post.objects.filter(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now),
                                 status='Đã đăng', section__topic=topic)
     title = topic.title
     sort_by = request.GET.get('sort_by', '')
@@ -150,7 +153,7 @@ def topic(request, slug_topic):
 def section(request, slug_topic, slug_section):
   try:
     section = Section.objects.get(slug=slug_section, topic__slug=slug_topic)
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+    posts = Post.objects.filter(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now), 
                                 status='Đã đăng', section=section)
     title = section.title
     sort_by = request.GET.get('sort_by', '')
@@ -186,13 +189,13 @@ def section(request, slug_topic, slug_section):
 
 def post_detail(request, slug):
   try:
-    post = Post.objects.get(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+    post = Post.objects.get(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now), 
                             status='Đã đăng', slug=slug)
     title = post.title
     post.view += 1
     post.save()
     comments = Comment.objects.filter(post=post, status='Đã duyệt')
-    co_topic = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+    co_topic = Post.objects.filter(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now), 
                                    status='Đã đăng', section__topic__title=post.section.topic.title
                                    ).exclude(slug=slug).order_by('?')[:11]
     recently_viewed = RecentlyViewed(request)
@@ -227,7 +230,10 @@ def post_detail(request, slug):
           return JsonResponse({'audio_url': f'/static/audio/post_{post.id}.mp3'})
         except Exception as e:
           return JsonResponse({'error': str(e)}, status=500)
-    context = {'title': title, 'post': post, 'comments': comments, 'co_topic': co_topic}
+    context = {'title': title, 
+               'post': post, 
+               'comments': comments, 
+               'co_topic': co_topic}
     return render(request, 'client/pages/post_detail.html', context)
   except Post.DoesNotExist:
     return redirect('/')
@@ -278,7 +284,7 @@ def enjoy_posts(request):
   if request.user.is_authenticated:
     title = f'Bài viết đã lưu'
     enjoys = request.user.user_enjoys.filter(
-      Q(post__start_time=None, post__end_time=None) | Q(post__start_time__lte=time_now, post__end_time__gte=time_now), 
+      Q(post__start_time=None, post__end_time=None)|Q(post__start_time__lte=time_now, post__end_time__gte=time_now), 
       post__status='Đã đăng')
     context = {'title': title,
                'enjoys': enjoys}
@@ -290,13 +296,15 @@ def search(request):
   keyword = request.GET.get('q', '')
   if keyword:
     title = f"Kết quả tìm kiếm từ khóa '{keyword}'"
-    posts = Post.objects.filter(Q(start_time=None, end_time=None) | Q(start_time__lte=time_now, end_time__gte=time_now), 
+    posts = Post.objects.filter(Q(start_time=None, end_time=None)|Q(start_time__lte=time_now, end_time__gte=time_now), 
                                 Q(slug__icontains = slugify(keyword))|Q(body__icontains = keyword), status='Đã đăng'
                                 ).order_by('-posted_at')
   else:
     title = 'Tìm kiếm bài viết'
     posts = None
-  context = {'title': title, 'keyword': keyword, 'posts': posts}
+  context = {'title': title, 
+             'keyword': keyword, 
+             'posts': posts}
   return render(request, 'client/pages/search.html', context)
 
 def weather(request):

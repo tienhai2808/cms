@@ -8,6 +8,9 @@ class UpdateUserForm(forms.ModelForm):
   class Meta:
     model = User
     fields = ('first_name', 'last_name', 'email')
+    labels = {'first_name': 'Họ', 
+              'last_name': 'Tên', 
+              'email': 'Email'}
 
 
 class UpdateProfileForm(forms.ModelForm):
@@ -19,7 +22,7 @@ class UpdateProfileForm(forms.ModelForm):
               'phone': 'Số điện thoại',
               'gender': 'Giới tính',
               'dob': 'Ngày sinh',
-              'about': 'Mô tả về bạn'}
+              'about': 'Giới thiệu'}
     
 
 class SignUpForm(UserCreationForm):
@@ -30,7 +33,7 @@ class SignUpForm(UserCreationForm):
                'username': forms.TextInput(attrs={'placeholder': ' '}),
                'first_name': forms.TextInput(attrs={'placeholder': ' '}),
                'last_name': forms.TextInput(attrs={'placeholder': ' '})}
-    labels = {'email': 'Email', 
+    labels = {'email': 'Email',
               'username': 'Tên đăng nhập',
               'first_name': 'Họ', 
               'last_name': 'Tên',}

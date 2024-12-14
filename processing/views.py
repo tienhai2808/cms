@@ -206,12 +206,13 @@ def create_draft(request):
       draft.save()
       messages.success(request, 'Tạo và gửi bản nháp thành công' if send else 'Tạo bản nháp thành công')       
       return redirect('pro-home')
-  context = {'title': title, 'form_cp': form_cp}
+  context = {'title': title, 
+             'form_cp': form_cp}
   return render(request,'processing/pages/create_draft.html', context)
 
 def update_draft(request, slug):
   try:
-    draft = Post.objects.get(Q(status='Chờ gửi') | Q(status='Từ chối'), slug=slug, created_by=request.user)
+    draft = Post.objects.get(Q(status='Chờ gửi')|Q(status='Từ chối'), slug=slug, created_by=request.user)
     title = f'Sửa bản nháp của {request.user.username}'
     form_up = ContributorPostForm(request.POST or None, request.FILES or None, instance=draft)
     if request.POST:
@@ -227,7 +228,8 @@ def update_draft(request, slug):
         draft.save()
         messages.success(request,'Đã gửi bản nháp cho Tổng biên tập' if send else 'Đã lưu chỉnh sửa bản nháp')
         return redirect('draft-list') if send else redirect('draft-detail', slug=draft.slug)
-    context = {'title': title ,'form_up': form_up}
+    context = {'title': title ,
+               'form_up': form_up}
     return render(request, 'processing/pages/update_post.html', context)
   except Post.DoesNotExist:
     messages.warning(request, 'Không tìm thấy bản chỉnh sửa')
@@ -237,7 +239,7 @@ def update_draft(request, slug):
 def update_post(request, slug):
   try:
     if request.user.groups.filter(name='Approver').exists():
-      post = Post.objects.get(Q(status='Chờ sửa') | Q(status='Chờ đăng'), slug=slug)
+      post = Post.objects.get(Q(status='Chờ sửa')|Q(status='Chờ đăng'), slug=slug)
     else:
       post = Post.objects.get(slug=slug, section__topic=request.user.profile.take_charge, status='Chờ sửa')
     title = f'Sửa bài viết số {post.id}'
